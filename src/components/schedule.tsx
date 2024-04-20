@@ -11,7 +11,7 @@ import { type JSX, type SVGProps } from 'react'
 
 export default function Schedule () {
   return (
-    <div className='grid grid-cols-1 gap-6 lg:grid-cols-[1fr_350px] mr-auto'>
+    <div className='grid grid-cols-1 gap-6 2xl:grid-cols-[1fr_350px] mr-auto'>
       <div className='rounded-lg border bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950'>
         <Calendar className='w-full' initialFocus mode='single' />
       </div>

@@ -4,7 +4,7 @@ import React, { type JSX, type SVGProps } from 'react'
 
 const FeaturedFile = ({ file }: { file: File }) => {
   return (
-    <Card className='w-full max-w-md overflow-hidden'>
+    <Card className='max-w-md overflow-hidden mb-4'>
       <CardContent className='p-6'>
         <div className='flex items-center space-x-4'>
           <div className='flex w-10 h-10 items-center justify-center rounded-full bg-gray-100'>

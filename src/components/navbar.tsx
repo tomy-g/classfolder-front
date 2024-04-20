@@ -6,7 +6,7 @@ import { ModeToggle } from './mode-toogle'
 
 export default function Navbar () {
   return (
-    <header className='flex h-20 w-full shrink-0 items-center px-4 md:px-40 '>
+    <header className='flex h-20 shrink-0 items-center max-w-screen-3xl px-10 mx-auto '>
       <Sheet>
         <SheetTrigger asChild>
           <Button className='lg:hidden ml-auto' size='icon' variant='outline'>
