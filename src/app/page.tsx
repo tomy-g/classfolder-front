@@ -10,12 +10,12 @@ export default function Home () {
   return (
     <main className='flex w-full max-w-screen-3xl min-h-screen flex-col items-center pt-24 px-10 mx-auto'>
       <QuickSearch />
-      <section className='grid lg:grid-cols-2 gap-16 mt-16 w-full justify-center'>
+      <div className='grid lg:grid-cols-2 gap-16 mt-16 w-full justify-center'>
         <Schedule />
         <FeaturedFiles files={Files} />
         <Calendar />
         <div className=' mx-auto'>4</div>
-      </section>
+      </div>
     </main>
   )
 }
