@@ -1,10 +1,10 @@
 import React from 'react'
 import QuickSearch from '@/components/quick-search'
 import Schedule from '@/components/schedule'
-import { Calendar } from '@/components/ui/calendar'
 import FeaturedFiles from '@/components/featured-files'
-// import { type File } from '@/types/File'
-import Files from '@/constants/Files'
+import files from '@/constants/Files'
+import Groups from '@/components/groups'
+import groups from '@/constants/Groups'
 
 export default function Home () {
   return (
@@ -12,9 +12,9 @@ export default function Home () {
       <QuickSearch />
       <div className='grid lg:grid-cols-2 gap-16 mt-16 w-full justify-center'>
         <Schedule />
-        <FeaturedFiles files={Files} />
-        <Calendar />
-        <div className=' mx-auto'>4</div>
+        <FeaturedFiles files={files} />
+        <Groups groups={groups}/>
+        <div className='mx-auto'>4G</div>
       </div>
     </main>
   )
