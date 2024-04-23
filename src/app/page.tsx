@@ -2,9 +2,9 @@ import React from 'react'
 import QuickSearch from '@/components/quick-search'
 import Schedule from '@/components/schedule'
 import FeaturedFiles from '@/components/featured-files'
-import files from '@/constants/Files'
+import files from '@/constants/mocks/Files'
 import Groups from '@/components/groups'
-import groups from '@/constants/Groups'
+import groups from '@/constants/mocks/Groups'
 
 export default function Home () {
   return (

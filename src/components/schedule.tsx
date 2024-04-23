@@ -15,10 +15,10 @@ export default function Schedule () {
     <section>
       <SectionHeading title='NEARBY SCHEDULE'></SectionHeading>
       <div className='grid grid-cols-1 gap-6 2xl:grid-cols-[1fr_350px] mr-auto'>
-        <div className='rounded-lg border bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950'>
+        <div className='rounded-lg border p-6 shadow-sm'>
           <Calendar className='w-full' initialFocus mode='single' />
         </div>
-        <div className='rounded-lg border bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950'>
+        <div className='rounded-lg border p-6 shadow-sm'>
           <div className='mb-4 flex items-center justify-between'>
             <h2 className='text-lg font-medium'>Upcoming Events</h2>
             <DropdownMenu>

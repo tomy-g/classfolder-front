@@ -8,12 +8,12 @@ const groups: Group[] = [
   {
     id: '2',
     name: 'English',
-    color: 'pink'
+    color: 'red'
   },
   {
     id: '3',
     name: 'History',
-    color: 'teal'
+    color: 'orange'
   },
   {
     id: '4',
