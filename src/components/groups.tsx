@@ -4,6 +4,7 @@ import { type Group } from '@/types/Group'
 import GroupCover from './group-cover'
 import { Button } from './ui/button'
 import { Separator } from './ui/separator'
+import { EyeIcon, PlusIcon } from 'lucide-react'
 
 const Groups = ({ groups }: { groups: Group[] }) => {
   return (
@@ -16,13 +17,18 @@ const Groups = ({ groups }: { groups: Group[] }) => {
           </li>
         ))}
         <li key='buttons' className=' flex flex-col'>
-          <Button size='lg' variant='outline' className='rounded-lg'>Add group</Button>
+          <Button size='lg' variant='outline' className='rounded-lg'>
+            <PlusIcon className='mr-2 h-4 w-4'></PlusIcon>
+            Add group
+          </Button>
           <Separator className=' my-3' />
-          <Button size='lg' variant='secondary' className='rounded-lg'>View all</Button>
+          <Button size='lg' variant='secondary' className='rounded-lg'>
+            <EyeIcon className='mr-2 h-4 w-4'></EyeIcon>
+            View all
+          </Button>
         </li>
       </ul>
     </section>
   )
 }
-
 export default Groups
