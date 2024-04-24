@@ -5,6 +5,7 @@ import FeaturedFiles from '@/components/featured-files'
 import files from '@/constants/mocks/Files'
 import Groups from '@/components/groups'
 import groups from '@/constants/mocks/Groups'
+import Topics from '@/components/topics'
 
 export default function Home () {
   return (
@@ -14,7 +15,7 @@ export default function Home () {
         <Schedule />
         <FeaturedFiles files={files} />
         <Groups groups={groups}/>
-        <div className='mx-auto'>4G</div>
+        <Topics/>
       </div>
     </main>
   )
