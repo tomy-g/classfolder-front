@@ -10,7 +10,7 @@ import {
 
 const Breadcrumbs = () => {
   return (
-    <Breadcrumb className='px-10 max-w-screen-3xl mx-auto h-10 flex items-center mt-16'>
+    <Breadcrumb className='px-10 max-w-screen-3xl mx-auto h-10 flex items-center mt-8'>
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href='/'>Home</BreadcrumbLink>
