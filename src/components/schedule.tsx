@@ -40,41 +40,41 @@ export default function Schedule () {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className='space-y-4'>
-            <div className='flex items-center gap-4'>
-              <div className='flex-shrink-0 rounded-md bg-gray-100 p-2 dark:bg-gray-800'>
-                <CalendarIcon className='h-5 w-5 text-gray-500 dark:text-gray-400' />
+          <ol className='space-y-4 list-none'>
+            <li className='flex items-center gap-4'>
+              <div className='flex-shrink-0 rounded-md bg-secondary/ p-2 '>
+                <CalendarIcon className='h-5 w-5 text-secondary-foreground/75' />
               </div>
               <div className='flex-1'>
                 <h3 className='font-medium'>Company Offsite</h3>
-                <p className='text-sm text-gray-500 dark:text-gray-400'>
+                <p className='text-sm text-muted-foreground'>
                   August 15, 2023 - 9:00 AM to 5:00 PM
                 </p>
               </div>
-            </div>
-            <div className='flex items-center gap-4'>
-              <div className='flex-shrink-0 rounded-md bg-gray-100 p-2 dark:bg-gray-800'>
-                <CalendarIcon className='h-5 w-5 text-gray-500 dark:text-gray-400' />
+            </li>
+            <li className='flex items-center gap-4'>
+              <div className='flex-shrink-0 rounded-md bg-secondary/ p-2 '>
+                <CalendarIcon className='h-5 w-5 text-secondary-foreground/75' />
               </div>
               <div className='flex-1'>
                 <h3 className='font-medium'>Team Lunch</h3>
-                <p className='text-sm text-gray-500 dark:text-gray-400'>
+                <p className='text-sm text-muted-foreground'>
                   August 18, 2023 - 12:00 PM to 1:30 PM
                 </p>
               </div>
-            </div>
-            <div className='flex items-center gap-4'>
-              <div className='flex-shrink-0 rounded-md bg-gray-100 p-2 dark:bg-gray-800'>
-                <CalendarIcon className='h-5 w-5 text-gray-500 dark:text-gray-400' />
+            </li>
+            <li className='flex items-center gap-4'>
+              <div className='flex-shrink-0 rounded-md bg-secondary/ p-2 '>
+                <CalendarIcon className='h-5 w-5 text-secondary-foreground/75' />
               </div>
               <div className='flex-1'>
                 <h3 className='font-medium'>Product Launch Meeting</h3>
-                <p className='text-sm text-gray-500 dark:text-gray-400'>
+                <p className='text-sm text-muted-foreground'>
                   August 22, 2023 - 2:00 PM to 4:00 PM
                 </p>
               </div>
-            </div>
-          </div>
+            </li>
+          </ol>
         </div>
       </div>
     </section>

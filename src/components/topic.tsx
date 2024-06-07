@@ -24,18 +24,17 @@ const Topic = () => {
             by @rauchg
           </CardDescription>
         </div>
-        <MoreHorizontalIcon className='h-5 w-5 flex-shrink-0 text-gray-500 dark:text-gray-400' />
+        <MoreHorizontalIcon className='h-5 w-5 flex-shrink-0 text-muted-foreground' />
       </CardHeader>
       <CardContent>
         <div className='flex items-center space-x-2 text-sm'>
-          {/* <TextIcon className='h-4 w-4 text-gray-500 dark:text-gray-400' /> */}
           <div className='ml-auto flex items-center space-x-1'>
-            <MessageSquare className='h-4 w-4 text-gray-500 dark:text-gray-400' />
-            <span>2</span>
+            <MessageSquare className='h-4 w-4 text-muted-foreground' />
+            <span className='text-muted-foreground'>2</span>
           </div>
           <div className='ml-auto flex items-center space-x-1'>
-            <EyeIcon className='h-4 w-4 text-gray-500 dark:text-gray-400' />
-            <span>345</span>
+            <EyeIcon className='h-4 w-4 text-muted-foreground' />
+            <span className='text-muted-foreground'>345</span>
           </div>
         </div>
       </CardContent>

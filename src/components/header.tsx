@@ -16,27 +16,27 @@ export default function Header () {
           </Button>
         </SheetTrigger>
         <SheetContent side='right'>
-          <div className='grid gap-2 py-6'>
+          <div className='grid gap-4 my-8'>
             <Link
-              className='flex w-full items-center py-2 text-lg font-semibold'
+              className={cn(buttonVariants({ variant: 'ghost', size: 'lg' }), 'justify-start hover:bg-transparent')}
               href='#'
             >
               Home
             </Link>
             <Link
-              className='flex w-full items-center py-2 text-lg font-semibold'
+              className={cn(buttonVariants({ variant: 'ghost', size: 'lg' }), 'justify-start hover:bg-transparent')}
               href='#'
             >
               About
             </Link>
             <Link
-              className='flex w-full items-center py-2 text-lg font-semibold'
+              className={cn(buttonVariants({ variant: 'ghost', size: 'lg' }), 'justify-start hover:bg-transparent')}
               href='#'
             >
               Services
             </Link>
             <Link
-              className='flex w-full items-center py-2 text-lg font-semibold'
+              className={cn(buttonVariants({ variant: 'ghost', size: 'lg' }), 'justify-start hover:bg-transparent')}
               href='#'
             >
               Contact
