@@ -27,19 +27,13 @@ export default function Header () {
               className={cn(buttonVariants({ variant: 'ghost', size: 'lg' }), 'justify-start hover:bg-transparent')}
               href='#'
             >
-              About
+              Groups
             </Link>
             <Link
               className={cn(buttonVariants({ variant: 'ghost', size: 'lg' }), 'justify-start hover:bg-transparent')}
               href='#'
             >
-              Services
-            </Link>
-            <Link
-              className={cn(buttonVariants({ variant: 'ghost', size: 'lg' }), 'justify-start hover:bg-transparent')}
-              href='#'
-            >
-              Contact
+              Profile
             </Link>
           </div>
         </SheetContent>
@@ -59,21 +53,14 @@ export default function Header () {
           className={cn(buttonVariants({ variant: 'ghost' }), '')}
           href='#'
         >
-          About
+          Groups
         </Link>
         <Link
           className={cn(buttonVariants({ variant: 'ghost' }), '')}
           href='#'
         >
-          Services
+          Profile
         </Link>
-        <Link
-          className={cn(buttonVariants({ variant: 'ghost' }), '')}
-          href='#'
-        >
-          Contact
-        </Link>
-
         <ModeToggle />
       </nav>
     </header>

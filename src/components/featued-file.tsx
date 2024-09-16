@@ -1,12 +1,25 @@
 import { type File } from '@/types/File'
-import { Card, CardContent } from './ui/card'
+import { Card, CardContent } from '@/components/ui/card'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import React from 'react'
-import {
-  CalendarIcon,
-  DownloadIcon,
-  UserIcon
-} from 'lucide-react'
-import { IconFileTypePdf } from '@tabler/icons-react'
+import { FileIcon, ImageIcon, FileTextIcon, Download } from 'lucide-react'
+
+const getFileIcon = (extension: string) => {
+  switch (extension) {
+    case 'pdf':
+      return (
+        <FileTextIcon className='h-6 w-6 text-red-500' aria-hidden='true' />
+      )
+    case 'png':
+    case 'jpg':
+    case 'jpeg':
+      return <ImageIcon className='h-6 w-6 text-blue-500' aria-hidden='true' />
+    case 'ppt':
+      return <FileIcon className='h-6 w-6 text-orange-500' aria-hidden='true' />
+    default:
+      return <FileIcon className='h-6 w-6 text-gray-500' aria-hidden='true' />
+  }
+}
 
 function formatDate (date: Date): string {
   const currentYear = new Date().getFullYear()
@@ -24,41 +37,46 @@ function formatDate (date: Date): string {
       year: 'numeric'
     })
   }
-
   return formattedDate
 }
 
 const FeaturedFile = ({ file }: { file: File }) => {
   return (
-    <Card className='max-w-sm overflow-hidden'>
-      <CardContent className='p-6'>
-        <div className='flex items-center space-x-4'>
-          <div className='flex w-10 h-10 items-center justify-center rounded-md bg-secondary/75'>
-            <IconFileTypePdf stroke={1.5} className='w-6 h-6 text-secondary-foreground/75' />
+    <Card>
+      <CardContent className='flex items-center p-4'>
+        <div className='mr-4' aria-hidden='true'>
+          {getFileIcon(file.extension)}
+        </div>
+        <div className='flex-grow min-w-0'>
+          <h3 className='text-lg font-semibold truncate'>
+            <span className='sr-only'>File name: </span>
+            {file.name}
+          </h3>
+          <div className='flex items-center mt-2'>
+            <Avatar className='h-6 w-6 mr-2'>
+              <AvatarImage src={file.authorAvatar} alt='' />
+              <AvatarFallback>{file.author.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <span className='text-sm text-muted-foreground truncate'>
+              <span className='sr-only'>Author: </span>
+              {file.author}
+            </span>
+            <span className='text-sm ml-4 text-background truncate bg-muted-foreground px-2 rounded-full'>
+              {file.group}
+            </span>
           </div>
-          <div className='flex flex-col justify-between space-y-1.5 w-full '>
-            <h2 className='text-base font-semibold leading-none align-top pt-0'>
-              {file.name}
-            </h2>
-            <dl className='w-full flex justify-between items-center text-xs '>
-              <div className='flex items-center space-x-1'>
-                <CalendarIcon className='w-4 h-4 text-muted-foreground' />
-                <dt className='sr-only'>Uploaded at</dt>
-                <dd className='text-muted-foreground'>
-                  {formatDate(file.uploadDate)}
-                </dd>
-              </div>
-              <div className='flex items-center space-x-1'>
-                <UserIcon className='w-4 h-4 text-muted-foreground' />
-                <dt className='sr-only'>Uploaded by</dt>
-                <dd className='text-muted-foreground'>{file.author}</dd>
-              </div>
-              <div className='flex items-center space-x-1'>
-                <DownloadIcon className='w-4 h-4 text-muted-foreground' />
-                <dt className='sr-only'>Downloads</dt>
-                <dd className='text-muted-foreground'>{file.downloads}</dd>
-              </div>
-            </dl>
+        </div>
+        <div className='text-right ml-4'>
+          <p className='text-sm text-muted-foreground'>
+            <span className='sr-only'>Upload date: </span>
+            {formatDate(file.uploadDate)}
+          </p>
+          <div
+            className='flex items-center justify-end mt-2'
+            aria-label={`${file.downloads} downloads`}
+          >
+            <Download className='h-4 w-4 mr-1' aria-hidden='true' />
+            <span className='text-sm font-medium'>{file.downloads}</span>
           </div>
         </div>
       </CardContent>

@@ -2,27 +2,27 @@ import { type Group } from '@/types/Group'
 const groups: Group[] = [
   {
     id: '1',
-    name: 'Maths',
+    name: 'Cálculo',
     color: 'blue'
   },
   {
     id: '2',
-    name: 'English',
+    name: 'Mátematica Discreta',
     color: 'red'
   },
   {
     id: '3',
-    name: 'History',
+    name: 'Electrónica',
     color: 'orange'
   },
   {
     id: '4',
-    name: 'Science',
+    name: 'Física',
     color: 'green'
   },
   {
     id: '5',
-    name: 'Music',
+    name: 'Base de Datos',
     color: 'yellow'
   }
 ]

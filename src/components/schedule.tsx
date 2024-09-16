@@ -46,7 +46,7 @@ export default function Schedule () {
                 <CalendarIcon className='h-5 w-5 text-secondary-foreground/75' />
               </div>
               <div className='flex-1'>
-                <h3 className='font-medium'>Company Offsite</h3>
+                <h3 className='font-medium'>1er parical Cálculo</h3>
                 <p className='text-sm text-muted-foreground'>
                   August 15, 2023 - 9:00 AM to 5:00 PM
                 </p>
@@ -57,7 +57,7 @@ export default function Schedule () {
                 <CalendarIcon className='h-5 w-5 text-secondary-foreground/75' />
               </div>
               <div className='flex-1'>
-                <h3 className='font-medium'>Team Lunch</h3>
+                <h3 className='font-medium'>Clase dudas Electrónica</h3>
                 <p className='text-sm text-muted-foreground'>
                   August 18, 2023 - 12:00 PM to 1:30 PM
                 </p>
@@ -68,7 +68,7 @@ export default function Schedule () {
                 <CalendarIcon className='h-5 w-5 text-secondary-foreground/75' />
               </div>
               <div className='flex-1'>
-                <h3 className='font-medium'>Product Launch Meeting</h3>
+                <h3 className='font-medium'>Entrega práctica 3 ADA</h3>
                 <p className='text-sm text-muted-foreground'>
                   August 22, 2023 - 2:00 PM to 4:00 PM
                 </p>
