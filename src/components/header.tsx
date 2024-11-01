@@ -61,6 +61,18 @@ export default function Header () {
         >
           Profile
         </Link>
+        <Link
+          className={cn(buttonVariants({ variant: 'ghost' }), '')}
+          href='/login'
+        >
+          Login
+        </Link>
+        <Link
+          className={cn(buttonVariants({ variant: 'ghost' }), '')}
+          href='/register'
+        >
+          Register
+        </Link>
         <ModeToggle />
       </nav>
     </header>
