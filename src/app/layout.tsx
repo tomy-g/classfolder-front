@@ -7,6 +7,8 @@ import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/theme-provider'
 import Header from '@/components/header'
 import Breadcrumbs from '@/components/breadcrumbs'
+import { AuthProvider } from '@/context/AuthProvider'
+import NextTopLoader from 'nextjs-toploader'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -37,9 +39,10 @@ export default function RootLayout ({
           enableSystem
           disableTransitionOnChange
         >
-          <Header/>
-          <Breadcrumbs/>
-          {children}
+          <NextTopLoader color='hsl(221.2 83.2% 53.3%)'/>
+          <Header />
+          <Breadcrumbs />
+          <AuthProvider>{children}</AuthProvider>
         </ThemeProvider>
       </body>
     </html>

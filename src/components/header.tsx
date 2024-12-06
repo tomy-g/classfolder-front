@@ -45,7 +45,7 @@ export default function Header () {
       <nav className='ml-auto hidden lg:flex gap-6'>
         <Link
           className={cn(buttonVariants({ variant: 'ghost' }), '')}
-          href='#'
+          href='/'
         >
           Home
         </Link>
@@ -60,6 +60,12 @@ export default function Header () {
           href='#'
         >
           Profile
+        </Link>
+        <Link
+          className={cn(buttonVariants({ variant: 'ghost' }), '')}
+          href='/dashboard'
+        >
+          Dashboard
         </Link>
         <Link
           className={cn(buttonVariants({ variant: 'ghost' }), '')}

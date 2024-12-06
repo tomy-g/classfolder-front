@@ -25,8 +25,11 @@ import { loginSchema } from '@/schemas/Login'
 import { type z } from 'zod'
 import { useState } from 'react'
 import { PasswordInput } from './ui/password-input'
+import useAuth from '@/hooks/useAuth'
 
 export function LoginForm () {
+  const authContext = useAuth()
+  const { setAuth } = authContext ?? {}
   const [error, setError] = useState('')
 
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -44,11 +47,12 @@ export function LoginForm () {
       username: values.username,
       password: values.password
     })
-    if (response.username !== values.username) {
-      setError('Username or password is incorrect')
-    } else {
-      setError('')
+    if (response.error !== null && response.error !== undefined) {
+      setError(response.error)
+      return
     }
+    const accessToken = response.accessToken
+    setAuth?.({ accessToken })
   }
 
   return (

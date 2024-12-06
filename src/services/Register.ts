@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axiosLibrary from 'axios'
+import axios from '@/services/axios'
 
 interface RegisterResponse {
   id: string
@@ -16,20 +17,23 @@ interface RegisterCredentials {
 }
 
 class AuthService {
-  private readonly apiUrl = 'http://localhost:4000/users'
+  private readonly apiUrl = process.env.API_URL
 
   async register (credentials: RegisterCredentials): Promise<RegisterResponse> {
     try {
       const response = await axios.post<RegisterResponse>(
-        `${this.apiUrl}/register`,
+        'auth/register',
         credentials,
         {
-          withCredentials: true
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
       )
       return response.data
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 409) {
+      if (axiosLibrary.isAxiosError(error) && error.response?.status === 409) {
         return { id: '', username: '', firstName: '', lastName: '', error: 'Username already exists' }
       } else {
         return { id: '', username: '', firstName: '', lastName: '', error: 'Unexpected error login in' }
@@ -40,7 +44,7 @@ class AuthService {
   async checkUsernameExists (username: string): Promise<boolean> {
     try {
       const response = await axios.get<boolean>(
-        `${this.apiUrl}?username=${username}`,
+        `auth?username=${username}`,
         {
           withCredentials: true
         }
