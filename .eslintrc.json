@@ -6,7 +6,9 @@
     "extends": [
         "standard-with-typescript",
         "plugin:react/recommended",
-        "next/core-web-vitals"
+        "next/core-web-vitals",
+        "plugin:testing-library/react",
+        "plugin:jest-dom/recommended"
     ],
     "parserOptions": {
         "ecmaVersion": "latest",

@@ -1,9 +1,10 @@
 'use client'
+import { type AuthType } from '@/types/Auth'
 import React, { createContext, useState, type ReactNode } from 'react'
 
 interface AuthContextType {
-  auth: { accessToken: string }
-  setAuth: React.Dispatch<React.SetStateAction<{ accessToken: string }>>
+  auth: AuthType
+  setAuth: React.Dispatch<React.SetStateAction<AuthType>>
   persist: boolean
   setPersist: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -11,7 +12,10 @@ interface AuthContextType {
 // const AuthContext = createContext<AuthContextType | undefined>(undefined)
 const AuthContext = createContext<AuthContextType>({
   auth: {
-    accessToken: ''
+    accessToken: '',
+    roles: [],
+    user: '',
+    pic: ''
   },
   setAuth: () => {},
   persist: false,
@@ -25,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return JSON.parse(localStorage.getItem('persist') ?? 'false') as boolean
   }
 
-  const [auth, setAuth] = useState({ accessToken: '' })
+  const [auth, setAuth] = useState<AuthType>({ accessToken: '', roles: [], user: '', pic: '' })
   const [persist, setPersist] = useState(false)
 
   React.useEffect(() => {

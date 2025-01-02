@@ -5,8 +5,12 @@ import useAuth from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import useRefreshToken from '@/hooks/useRefresh'
+// import { type AuthType } from '@/types/Auth'
 
-export default function withAuth (Component: React.ComponentType) {
+export default function withAuth (
+  Component: React.ComponentType,
+  ComponentAux?: React.ComponentType
+) {
   return function AuthenticatedComponent (props: any) {
     const [isLoading, setIsLoading] = useState(true)
     const refresh = useRefreshToken()
@@ -16,7 +20,7 @@ export default function withAuth (Component: React.ComponentType) {
     useEffect(() => {
       let isMounted = true
 
-      const verifyRefreshToken = async () => {
+      async function verifyRefreshToken () {
         try {
           await refresh()
         } catch (err) {
@@ -28,10 +32,11 @@ export default function withAuth (Component: React.ComponentType) {
 
       // Avoids unwanted call to verifyRefreshToken
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-      if (!auth || !('accessToken' in auth) || !auth.accessToken) {
+      if (!auth?.accessToken) {
         if (persist) {
-          verifyRefreshToken().catch(console.error)
+          verifyRefreshToken().catch(console.log)
         } else {
+          verifyRefreshToken().catch(console.log)
           setIsLoading(false)
         }
       } else {
@@ -46,9 +51,10 @@ export default function withAuth (Component: React.ComponentType) {
 
     useEffect(() => {
       if (
-        auth.accessToken == null ||
-        Object.keys(auth.accessToken).length === 0 ||
-        auth.accessToken === undefined
+        (auth.accessToken == null ||
+          Object.keys(auth.accessToken).length === 0 ||
+          auth.accessToken === undefined) &&
+        ComponentAux === undefined
       ) {
         router.push('/login') // Redirect to login if not authenticated
       }
@@ -57,7 +63,7 @@ export default function withAuth (Component: React.ComponentType) {
     useEffect(() => {
       console.log(`isLoading: ${isLoading}`)
       console.log(`aT: ${JSON.stringify(auth?.accessToken)}`)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading])
 
     if (
@@ -66,7 +72,12 @@ export default function withAuth (Component: React.ComponentType) {
       auth.accessToken === undefined ||
       isLoading
     ) {
-      return null // Avoid flashing protected content
+      if (ComponentAux === undefined || isLoading) {
+        return null // Avoid flashing protected content
+      } else {
+        console.log('AQUI', auth.accessToken)
+        return <ComponentAux {...props} /> // Show loading spinner
+      }
     }
     return <Component {...props} />
   }

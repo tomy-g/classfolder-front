@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
 'use client'
 
 import * as React from 'react'
@@ -11,7 +11,7 @@ import {
   type FieldPath,
   type FieldValues,
   FormProvider,
-  useFormContext
+  useFormContext,
 } from 'react-hook-form'
 
 import { cn } from '@/lib/utils'
@@ -62,7 +62,7 @@ const useFormField = () => {
     formItemId: `${id}-form-item`,
     formDescriptionId: `${id}-form-item-description`,
     formMessageId: `${id}-form-item-message`,
-    ...fieldState
+    ...fieldState,
   }
 }
 
@@ -176,5 +176,5 @@ export {
   FormControl,
   FormDescription,
   FormMessage,
-  FormField
+  FormField,
 }
