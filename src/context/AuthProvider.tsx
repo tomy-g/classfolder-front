@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error('Failed to fetch persistence:', error)
     })
   }, [])
+
   return (
     <AuthContext.Provider value={{ auth, setAuth, persist, setPersist }}>
       {children}

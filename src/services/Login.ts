@@ -2,6 +2,9 @@ import axios from '@/services/axios'
 import axiosLibrary from 'axios'
 
 interface LoginResponse {
+  pic: string
+  user: string
+  roles: Array<{ key: number, value: number }>
   // id: string
   // username: string
   // firstName: string
@@ -30,11 +33,11 @@ class AuthService {
       return response.data
     } catch (error) {
       if (axiosLibrary.isAxiosError(error) && error.response?.status === 404) {
-        return { accessToken: '', error: 'Username not found' }
+        return { pic: '', user: '', roles: [], accessToken: '', error: 'Username not found' }
       } else if (axiosLibrary.isAxiosError(error) && error.response?.status === 401) {
-        return { accessToken: '', error: 'Incorrect password' }
+        return { pic: '', user: '', roles: [], accessToken: '', error: 'Incorrect password' }
       } else {
-        return { accessToken: '', error: 'Unexpected error login in' }
+        return { pic: '', user: '', roles: [], accessToken: '', error: 'Unexpected error login in' }
       }
     }
   }

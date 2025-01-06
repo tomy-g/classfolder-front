@@ -28,8 +28,7 @@ import { PasswordInput } from './ui/password-input'
 import useAuth from '@/hooks/useAuth'
 
 export function LoginForm () {
-  const authContext = useAuth()
-  const { setAuth } = authContext ?? {}
+  const { setAuth } = useAuth()
   const [error, setError] = useState('')
 
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -52,7 +51,15 @@ export function LoginForm () {
       return
     }
     const accessToken = response.accessToken
-    setAuth?.({ accessToken })
+    const roles = (response.roles ?? {})
+    const user = response.user ?? ''
+    const pic = response.pic ?? ''
+    setAuth({
+      accessToken,
+      roles,
+      user,
+      pic
+    })
   }
 
   return (

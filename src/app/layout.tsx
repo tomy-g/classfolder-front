@@ -5,7 +5,7 @@ import { Inter as FontSans } from 'next/font/google'
 
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/theme-provider'
-import Header from '@/components/header'
+import Header from '@/components/Header'
 import Breadcrumbs from '@/components/breadcrumbs'
 import { AuthProvider } from '@/context/AuthProvider'
 import NextTopLoader from 'nextjs-toploader'
@@ -40,9 +40,11 @@ export default function RootLayout ({
           disableTransitionOnChange
         >
           <NextTopLoader color='hsl(221.2 83.2% 53.3%)'/>
-          <Header />
-          <Breadcrumbs />
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <Header />
+            <Breadcrumbs />
+            {children}
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

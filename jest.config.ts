@@ -4,6 +4,12 @@
  */
 
 import type { Config } from 'jest'
+import nextJest from 'next/jest.js'
+
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+})
 
 const config: Config = {
   // All imported modules in your tests should be mocked automatically
@@ -123,7 +129,7 @@ const config: Config = {
   // restoreMocks: false,
 
   // The root directory that Jest should scan for tests and modules within
-  // rootDir: undefined,
+  // rootDir: './',
 
   // A list of paths to directories that Jest should use to search for files in
   // roots: [
@@ -196,4 +202,5 @@ const config: Config = {
   // watchman: true,
 }
 
-export default config
+// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
+export default createJestConfig(config)

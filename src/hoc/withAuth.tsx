@@ -60,12 +60,6 @@ export default function withAuth (
       }
     }, [auth.accessToken, router])
 
-    useEffect(() => {
-      console.log(`isLoading: ${isLoading}`)
-      console.log(`aT: ${JSON.stringify(auth?.accessToken)}`)
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoading])
-
     if (
       auth.accessToken == null ||
       Object.keys(auth.accessToken).length === 0 ||
@@ -75,7 +69,6 @@ export default function withAuth (
       if (ComponentAux === undefined || isLoading) {
         return null // Avoid flashing protected content
       } else {
-        console.log('AQUI', auth.accessToken)
         return <ComponentAux {...props} /> // Show loading spinner
       }
     }
