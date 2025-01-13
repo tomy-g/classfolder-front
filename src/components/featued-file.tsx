@@ -23,15 +23,15 @@ const getFileIcon = (extension: string) => {
 
 function formatDate (date: Date): string {
   const currentYear = new Date().getFullYear()
-
+  const dateNew = new Date(date.toString())
   let formattedDate
-  if (date.getFullYear() === currentYear) {
-    formattedDate = date.toLocaleDateString('en-US', {
+  if (dateNew.getFullYear() === currentYear) {
+    formattedDate = dateNew.toLocaleDateString('en-US', {
       month: 'long',
       day: 'numeric'
     })
   } else {
-    formattedDate = date.toLocaleDateString('en-US', {
+    formattedDate = dateNew.toLocaleDateString('en-US', {
       day: 'numeric',
       month: 'long',
       year: 'numeric'
@@ -50,16 +50,16 @@ const FeaturedFile = ({ file }: { file: File }) => {
         <div className='flex-grow min-w-0'>
           <h3 className='text-lg font-semibold truncate'>
             <span className='sr-only'>File name: </span>
-            {file.name}
+            {file.title}
           </h3>
           <div className='flex items-center mt-2'>
             <Avatar className='h-6 w-6 mr-2'>
               <AvatarImage src={file.authorAvatar} alt='' />
-              <AvatarFallback>{file.author.charAt(0)}</AvatarFallback>
+              <AvatarFallback>{file.authorUsername.charAt(0).toUpperCase()}</AvatarFallback>
             </Avatar>
             <span className='text-sm text-muted-foreground truncate'>
               <span className='sr-only'>Author: </span>
-              {file.author}
+              {file.authorUsername}
             </span>
             <span className='text-sm ml-4 text-background truncate bg-muted-foreground px-2 rounded-full'>
               {file.group}
@@ -69,7 +69,7 @@ const FeaturedFile = ({ file }: { file: File }) => {
         <div className='text-right ml-4'>
           <p className='text-sm text-muted-foreground'>
             <span className='sr-only'>Upload date: </span>
-            {formatDate(file.uploadDate)}
+            {formatDate(new Date(file.uploadDate))}
           </p>
           <div
             className='flex items-center justify-end mt-2'

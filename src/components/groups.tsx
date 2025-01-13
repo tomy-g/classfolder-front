@@ -15,7 +15,7 @@ const Groups = ({ groupsMock }: { groupsMock: Group[] }) => {
   useEffect(() => {
     let isMounted = true
     const controller = new AbortController()
-    async function getGroups (username: string): Promise<Group[]> {
+    async function fetchGroups (username: string): Promise<Group[]> {
       try {
         const response = await axiosPrivate.get(`groups/${username}`,
           {
@@ -28,8 +28,8 @@ const Groups = ({ groupsMock }: { groupsMock: Group[] }) => {
         return []
       }
     }
-    async function fetchGroups () {
-      const response = await getGroups(auth?.user ?? 'u')
+    async function getGroups () {
+      const response = await fetchGroups(auth?.user ?? '')
       if (response.length < 1) {
         setError('No groups found')
       } else {
@@ -38,7 +38,7 @@ const Groups = ({ groupsMock }: { groupsMock: Group[] }) => {
       }
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetchGroups()
+    getGroups()
     return () => {
       isMounted = false
       controller.abort()
