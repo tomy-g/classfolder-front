@@ -1,14 +1,55 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SectionHeading from './section-heading'
 import { type Group } from '@/types/Group'
 import GroupCover from './group-cover'
 import { Button } from './ui/button'
 import { EyeIcon, PlusIcon } from 'lucide-react'
+import useAuth from '@/hooks/useAuth'
+import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 
-const Groups = ({ groups }: { groups: Group[] }) => {
+const Groups = ({ groupsMock }: { groupsMock: Group[] }) => {
+  const { auth } = useAuth()
+  const [groups, setGroups] = React.useState<Group[]>([])
+  const [error, setError] = React.useState<string>('')
+  const axiosPrivate = useAxiosPrivate()
+  useEffect(() => {
+    let isMounted = true
+    const controller = new AbortController()
+    async function getGroups (username: string): Promise<Group[]> {
+      try {
+        const response = await axiosPrivate.get(`groups/${username}`,
+          {
+            signal: controller.signal,
+            withCredentials: true
+          }
+        )
+        return response.data
+      } catch (error) {
+        return []
+      }
+    }
+    async function fetchGroups () {
+      const response = await getGroups(auth?.user ?? 'u')
+      if (response.length < 1) {
+        setError('No groups found')
+      } else {
+        setError('')
+        isMounted && setGroups(response)
+      }
+    }
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchGroups()
+    return () => {
+      isMounted = false
+      controller.abort()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth])
+
   return (
     <section>
       <SectionHeading title='YOUR GROUPS'></SectionHeading>
+      {error !== '' && <p>{error}</p>}
       <ul className={'list-none grid grid-cols-2 gap-6 xl:grid-cols-3'}>
         {groups.map((group: Group) => (
           <li key={group.id}>

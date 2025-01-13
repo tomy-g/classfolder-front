@@ -26,10 +26,12 @@ import { type z } from 'zod'
 import { useState } from 'react'
 import { PasswordInput } from './ui/password-input'
 import useAuth from '@/hooks/useAuth'
+import { useRouter } from 'next/navigation'
 
 export function LoginForm () {
   const { setAuth } = useAuth()
   const [error, setError] = useState('')
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -60,6 +62,7 @@ export function LoginForm () {
       user,
       pic
     })
+    router.push('/')
   }
 
   return (

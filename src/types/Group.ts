@@ -1,5 +1,8 @@
 export interface Group {
   id: string
-  name: string
-  color: string
+  title: string
+  // color: string
+  description: string
+  creationDate: string
+  communityId: number | null
 }

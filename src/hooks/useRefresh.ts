@@ -22,7 +22,6 @@ const useRefreshToken = () => {
         }
       })
     } catch (error) {
-      console.log(error)
       return ''
     }
   }
