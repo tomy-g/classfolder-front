@@ -48,7 +48,7 @@ function Threads () {
       <SectionHeading title={'NEW THREADS'} />
       {error !== '' && <p>{error}</p>}
       <ul>
-        {threads.map((thread: Thread) => (
+        {threads.slice(0, 3).map((thread: Thread) => (
           <li key={thread.id}>
             <ThreadCard thread={thread} />
           </li>

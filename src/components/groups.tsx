@@ -51,7 +51,7 @@ const Groups = () => {
       <SectionHeading title='YOUR GROUPS'></SectionHeading>
       {error !== '' && <p>{error}</p>}
       <ul className={'list-none grid grid-cols-2 gap-6 xl:grid-cols-3'}>
-        {groups.map((group: Group) => (
+        {groups.slice(0, 5).map((group: Group) => (
           <li key={group.id}>
             <GroupCover group={group} />
           </li>

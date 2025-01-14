@@ -47,7 +47,7 @@ function FeaturedFiles () {
       <SectionHeading title='FEATURED FILES'></SectionHeading>
       {error !== '' && <p>{error}</p>}
       <ol className='list-none grid grid-cols-1 gap-4 2xl:grid-cols-2'>
-        {files.map((file: File) => (
+        {files.slice(0, 6).map((file: File) => (
           <li key={file.id}>
             <FeaturedFile file={file} />
           </li>
