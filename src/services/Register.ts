@@ -44,12 +44,12 @@ class AuthService {
   async checkUsernameExists (username: string): Promise<boolean> {
     try {
       const response = await axios.get<boolean>(
-        `auth?username=${username}`,
+        `auth/check-username?username=${username}`,
         {
           withCredentials: true
         }
       )
-      return response.data
+      return response.status === 200
     } catch (error) {
       return false
     }

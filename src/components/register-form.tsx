@@ -24,25 +24,37 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from '@/schemas/Register'
 import { type z } from 'zod'
 import { PasswordInput } from './ui/password-input'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 export function RegisterForm () {
+  const [error, setError] = useState('')
+  const router = useRouter()
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       username: '',
-      password: ''
+      password: '',
+      firstName: '',
+      lastName: '',
+      passwordConfirmation: ''
     }
   })
 
   async function onSubmit (values: z.infer<typeof registerSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    await authService.register({
+    const response = await authService.register({
       username: values.username,
       firstName: values.firstName,
       lastName: values.lastName,
       password: values.password
     })
+    if (response.error !== null && response.error !== undefined) {
+      setError(response.error)
+      return
+    }
+    router.push('/login')
   }
 
   return (
@@ -67,9 +79,9 @@ export function RegisterForm () {
                       placeholder='example01'
                       {...field}
                       onBlur={async () => {
-                        const usernameExists =
+                        const usernameDoesNotExist =
                           await authService.checkUsernameExists(field.value)
-                        if (usernameExists) {
+                        if (!usernameDoesNotExist) {
                           form.setError('username', {
                             type: 'custom',
                             message: 'Username already exists'
@@ -136,6 +148,11 @@ export function RegisterForm () {
                 </FormItem>
               )}
             />
+            {(error !== '') && (
+              <FormMessage>
+                Something went wrong. Please try again.
+              </FormMessage>
+            )}
             <Button type='submit' className='w-full'>
               Register
             </Button>
