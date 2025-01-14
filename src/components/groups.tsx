@@ -7,7 +7,7 @@ import { EyeIcon, PlusIcon } from 'lucide-react'
 import useAuth from '@/hooks/useAuth'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 
-const Groups = ({ groupsMock }: { groupsMock: Group[] }) => {
+const Groups = () => {
   const { auth } = useAuth()
   const [groups, setGroups] = React.useState<Group[]>([])
   const [error, setError] = React.useState<string>('')

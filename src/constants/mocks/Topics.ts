@@ -1,4 +1,4 @@
-import { type Topic } from '@/types/Topic'
+import { type Topic } from '@/types/Thread'
 const topics: Topic[] = [
   {
     id: '1',

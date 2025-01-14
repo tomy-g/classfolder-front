@@ -3,9 +3,7 @@ import QuickSearch from './quick-search'
 import Schedule from './schedule'
 import Groups from './groups'
 import FeaturedFiles from './featured-files'
-import Topics from './topics'
-import files from '@/constants/mocks/Files'
-import groups from '@/constants/mocks/Groups'
+import Threads from './threads'
 
 function Dashboard () {
   return (
@@ -13,9 +11,9 @@ function Dashboard () {
       <QuickSearch />
       <div className='grid lg:grid-cols-2 gap-16 mt-8 w-full justify-center'>
         <Schedule />
-        <FeaturedFiles files={files} />
-        <Groups groups={groups} />
-        <Topics />
+        <FeaturedFiles />
+        <Groups />
+        <Threads />
       </div>
     </main>
   )
