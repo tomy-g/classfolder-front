@@ -9,6 +9,7 @@ import Header from '@/components/Header'
 import Breadcrumbs from '@/components/breadcrumbs'
 import { AuthProvider } from '@/context/AuthProvider'
 import NextTopLoader from 'nextjs-toploader'
+import '@schedule-x/theme-shadcn/dist/index.css'
 
 const fontSans = FontSans({
   subsets: ['latin'],
