@@ -5,7 +5,7 @@ import { type Event } from '@/types/Event'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useAuth from '@/hooks/useAuth'
 
-export default function Schedule () {
+export default function ScheduleWidget () {
   const { auth } = useAuth()
   const [events, setEvents] = useState<Event[]>([])
   const [error, setError] = useState<string>('')

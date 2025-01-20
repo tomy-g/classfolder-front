@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import FeaturedFile from './featued-file'
+import FileCard from './file-card'
 import { type File } from '@/types/File'
 import SectionHeading from './section-heading'
 import useAuth from '@/hooks/useAuth'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
-function FeaturedFiles () {
+function FilesWidget () {
   const { auth } = useAuth()
   const [files, setFiles] = React.useState<File[]>([])
   const [error, setError] = React.useState<string>('')
@@ -44,12 +44,12 @@ function FeaturedFiles () {
   }, [auth])
   return (
     <section>
-      <SectionHeading title='FEATURED FILES'></SectionHeading>
+      <SectionHeading title='ARCHIVOS DESTACADOS'></SectionHeading>
       {error !== '' && <p>{error}</p>}
       <ol className='list-none grid grid-cols-1 gap-4 2xl:grid-cols-2'>
         {files.slice(0, 6).map((file: File) => (
           <li key={file.id}>
-            <FeaturedFile file={file} />
+            <FileCard file={file} />
           </li>
         ))}
       </ol>
@@ -57,4 +57,4 @@ function FeaturedFiles () {
   )
 }
 
-export default FeaturedFiles
+export default FilesWidget

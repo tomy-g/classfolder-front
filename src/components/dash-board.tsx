@@ -1,9 +1,9 @@
 import React from 'react'
 import QuickSearch from './quick-search'
-import Schedule from './schedule'
+import Schedule from './schedule-widget'
 import Groups from './groups-widget'
-import FeaturedFiles from './featured-files'
-import Threads from './threads'
+import FeaturedFiles from './files-widget'
+import Threads from './threads-widget'
 
 function Dashboard () {
   return (

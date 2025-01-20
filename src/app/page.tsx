@@ -1,6 +1,6 @@
 'use client'
 
-import Dashboard from '@/components/Dashboard'
+import Dashboard from '@/components/dash-board'
 import Landing from '@/components/Landing'
 import withAuth from '@/hoc/withAuth'
 

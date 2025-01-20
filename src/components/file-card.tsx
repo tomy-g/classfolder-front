@@ -40,7 +40,7 @@ function formatDate (date: Date): string {
   return formattedDate
 }
 
-const FeaturedFile = ({ file }: { file: File }) => {
+const FileCard = ({ file }: { file: File }) => {
   return (
     <Card>
       <CardContent className='flex items-center p-4'>
@@ -83,4 +83,4 @@ const FeaturedFile = ({ file }: { file: File }) => {
     </Card>
   )
 }
-export default FeaturedFile
+export default FileCard

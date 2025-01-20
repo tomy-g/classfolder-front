@@ -5,7 +5,7 @@ import useAuth from '@/hooks/useAuth'
 import { type Thread } from '@/types/Thread'
 import ThreadCard from './thread-card'
 
-function Threads () {
+function ThreadsWidget () {
   const { auth } = useAuth()
   const [threads, setThreads] = React.useState<Thread[]>([])
   const [error, setError] = React.useState<string>('')
@@ -45,7 +45,7 @@ function Threads () {
   }, [auth])
   return (
     <section>
-      <SectionHeading title={'NEW THREADS'} />
+      <SectionHeading title={'NUEVOS HILOS'} />
       {error !== '' && <p>{error}</p>}
       <ul>
         {threads.slice(0, 3).map((thread: Thread) => (
@@ -58,4 +58,4 @@ function Threads () {
   )
 }
 
-export default Threads
+export default ThreadsWidget
