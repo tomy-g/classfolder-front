@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SectionHeading from './section-heading'
 import { type Group } from '@/types/Group'
 import GroupCover from './group-cover'
@@ -7,10 +7,10 @@ import { EyeIcon, PlusIcon } from 'lucide-react'
 import useAuth from '@/hooks/useAuth'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 
-const Groups = () => {
+const GroupsWidget = () => {
   const { auth } = useAuth()
-  const [groups, setGroups] = React.useState<Group[]>([])
-  const [error, setError] = React.useState<string>('')
+  const [groups, setGroups] = useState<Group[]>([])
+  const [error, setError] = useState<string>('')
   const axiosPrivate = useAxiosPrivate()
   useEffect(() => {
     let isMounted = true
@@ -48,7 +48,7 @@ const Groups = () => {
 
   return (
     <section>
-      <SectionHeading title='YOUR GROUPS'></SectionHeading>
+      <SectionHeading title='GRUPOS'></SectionHeading>
       {error !== '' && <p>{error}</p>}
       <ul className={'list-none grid grid-cols-2 gap-6 xl:grid-cols-3'}>
         {groups.slice(0, 5).map((group: Group) => (
@@ -70,4 +70,4 @@ const Groups = () => {
     </section>
   )
 }
-export default Groups
+export default GroupsWidget

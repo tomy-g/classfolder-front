@@ -1,6 +1,6 @@
 'use client'
 
-import EventCalendar from '@/components/EventCalendar'
+// import EventCalendar from '@/components/EventCalendar'
 import { Button } from '@/components/ui/button'
 import { DateTimePicker } from '@/components/ui/date-time-picker'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -76,7 +76,7 @@ export default function Page () {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      <EventCalendar />
+      {/* <EventCalendar /> */}
     </div>
   )
 }

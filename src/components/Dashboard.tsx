@@ -1,7 +1,7 @@
 import React from 'react'
 import QuickSearch from './quick-search'
 import Schedule from './schedule'
-import Groups from './groups'
+import Groups from './groups-widget'
 import FeaturedFiles from './featured-files'
 import Threads from './threads'
 
