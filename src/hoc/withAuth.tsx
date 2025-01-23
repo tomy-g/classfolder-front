@@ -7,11 +7,11 @@ import { useEffect, useState } from 'react'
 import useRefreshToken from '@/hooks/useRefresh'
 // import { type AuthType } from '@/types/Auth'
 
-export default function withAuth (
-  Component: React.ComponentType,
+export default function withAuth <T extends object> (
+  Component: React.ComponentType<T>,
   ComponentAux?: React.ComponentType
 ) {
-  return function AuthenticatedComponent (props: any) {
+  return function AuthenticatedComponent (props: T) {
     const [isLoading, setIsLoading] = useState(true)
     const refresh = useRefreshToken()
     const { auth, persist } = useAuth()
@@ -54,11 +54,11 @@ export default function withAuth (
         (auth.accessToken == null ||
           Object.keys(auth.accessToken).length === 0 ||
           auth.accessToken === undefined) &&
-        ComponentAux === undefined
+        ComponentAux === undefined && !isLoading
       ) {
         router.push('/login') // Redirect to login if not authenticated
       }
-    }, [auth.accessToken, router])
+    }, [auth.accessToken])
 
     if (
       auth.accessToken == null ||
@@ -69,7 +69,7 @@ export default function withAuth (
       if (ComponentAux === undefined || isLoading) {
         return null // Avoid flashing protected content
       } else {
-        return <ComponentAux {...props} /> // Show loading spinner
+        return <ComponentAux /> // Show loading spinner
       }
     }
     return <Component {...props} />

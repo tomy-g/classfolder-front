@@ -4,7 +4,8 @@ import { type File } from '@/types/File'
 import SectionHeading from './section-heading'
 import useAuth from '@/hooks/useAuth'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
-function FilesWidget () {
+import { isNullOrUndefinedOrEmpty } from '@/utils/utils'
+export default function FilesWidget ({ groupId }: { groupId?: number }) {
   const { auth } = useAuth()
   const [files, setFiles] = React.useState<File[]>([])
   const [error, setError] = React.useState<string>('')
@@ -14,7 +15,8 @@ function FilesWidget () {
     const controller = new AbortController()
     async function fetchFiles (username: string): Promise<File[]> {
       try {
-        const response = await axiosPrivate.get(`files/${username}`,
+        const url = isNullOrUndefinedOrEmpty(groupId) ? `files/${username}` : `files/${username}/${groupId}`
+        const response = await axiosPrivate.get(url,
           {
             signal: controller.signal,
             withCredentials: true
@@ -56,5 +58,3 @@ function FilesWidget () {
     </section>
   )
 }
-
-export default FilesWidget

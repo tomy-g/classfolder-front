@@ -4,8 +4,9 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useAuth from '@/hooks/useAuth'
 import { type Thread } from '@/types/Thread'
 import ThreadCard from './thread-card'
+import { isNullOrUndefinedOrEmpty } from '@/utils/utils'
 
-function ThreadsWidget () {
+function ThreadsWidget ({ groupId }: { groupId?: number }) {
   const { auth } = useAuth()
   const [threads, setThreads] = React.useState<Thread[]>([])
   const [error, setError] = React.useState<string>('')
@@ -15,7 +16,8 @@ function ThreadsWidget () {
     const controller = new AbortController()
     async function fetchThreads (username: string): Promise<Thread[]> {
       try {
-        const response = await axiosPrivate.get(`threads/${username}`,
+        const url = isNullOrUndefinedOrEmpty(groupId) ? `threads/${username}` : `threads/${username}/${groupId}`
+        const response = await axiosPrivate.get(url,
           {
             signal: controller.signal,
             withCredentials: true
@@ -29,7 +31,7 @@ function ThreadsWidget () {
     async function getThreads () {
       const response = await fetchThreads(auth?.user ?? '')
       if (response.length < 1) {
-        setError('No threads found')
+        setError('No se han encontrado hilos')
       } else {
         setError('')
         isMounted && setThreads(response)

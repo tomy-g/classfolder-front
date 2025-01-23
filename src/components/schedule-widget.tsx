@@ -4,8 +4,9 @@ import SectionHeading from './section-heading'
 import { type Event } from '@/types/Event'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useAuth from '@/hooks/useAuth'
+import { isNullOrUndefinedOrEmpty } from '@/utils/utils'
 
-export default function ScheduleWidget () {
+export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
   const { auth } = useAuth()
   const [events, setEvents] = useState<Event[]>([])
   const [error, setError] = useState<string>('')
@@ -16,7 +17,8 @@ export default function ScheduleWidget () {
     const controller = new AbortController()
     async function fetchEvents (username: string): Promise<Event[]> {
       try {
-        const response = await axiosPrivate.get(`events/${username}`,
+        const url = isNullOrUndefinedOrEmpty(groupId) ? `events/${username}` : `events/${username}/${groupId}`
+        const response = await axiosPrivate.get(url,
           {
             signal: controller.signal,
             withCredentials: true
@@ -29,7 +31,6 @@ export default function ScheduleWidget () {
     }
     async function getEvents () {
       const response = await fetchEvents(auth?.user ?? '')
-      console.log('response', response)
       if (response.length < 1) {
         setError('No events found')
         isMounted && setIsLoading(false)
