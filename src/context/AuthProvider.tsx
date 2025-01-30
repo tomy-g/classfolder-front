@@ -15,7 +15,8 @@ const AuthContext = createContext<AuthContextType>({
     accessToken: '',
     roles: [],
     user: '',
-    pic: ''
+    pic: '',
+    userId: -1
   },
   setAuth: () => {},
   persist: false,
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return JSON.parse(localStorage.getItem('persist') ?? 'false') as boolean
   }
 
-  const [auth, setAuth] = useState<AuthType>({ accessToken: '', roles: [], user: '', pic: '' })
+  const [auth, setAuth] = useState<AuthType>({ accessToken: '', roles: [], user: '', pic: '', userId: -1 })
   const [persist, setPersist] = useState(false)
 
   React.useEffect(() => {

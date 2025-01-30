@@ -15,9 +15,9 @@ class AuthService {
       return response.data
     } catch (error) {
       if (axiosLibrary.isAxiosError(error) && error.response?.status === 204) {
-        return { accessToken: '', roles: [], user: '', pic: '', error: 'Error logging out' }
+        return { accessToken: '', roles: [], user: '', pic: '', error: 'Error logging out', userId: -1 }
       } else {
-        return { accessToken: '', roles: [], user: '', pic: '', error: 'Unexpected error login in' }
+        return { accessToken: '', roles: [], user: '', pic: '', error: 'Unexpected error login in', userId: -1 }
       }
     }
   }

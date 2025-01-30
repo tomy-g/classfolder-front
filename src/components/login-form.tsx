@@ -56,11 +56,13 @@ export function LoginForm () {
     const roles = (response.roles ?? {})
     const user = response.user ?? ''
     const pic = response.pic ?? ''
+    const userId = response.userId ?? ''
     setAuth({
       accessToken,
       roles,
       user,
-      pic
+      pic,
+      userId
     })
     router.push('/')
   }

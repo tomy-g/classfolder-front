@@ -18,7 +18,8 @@ const useRefreshToken = () => {
           accessToken: response.data.accessToken,
           user: response.data.user,
           roles: response.data.roles,
-          pic: response.data.pic
+          pic: response.data.pic,
+          userId: response.data.userId
         }
       })
     } catch (error) {

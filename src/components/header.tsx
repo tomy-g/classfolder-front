@@ -24,7 +24,8 @@ export default function Header () {
       accessToken: '',
       roles: [],
       user: '',
-      pic: ''
+      pic: '',
+      userId: -1
     })
     void authService.logout()
     router.push('/')

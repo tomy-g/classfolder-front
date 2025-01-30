@@ -11,6 +11,7 @@ interface LoginResponse {
   // lastName: string
   accessToken: string
   error?: string
+  userId: number
 }
 
 interface LoginCredentials {
@@ -33,11 +34,11 @@ class AuthService {
       return response.data
     } catch (error) {
       if (axiosLibrary.isAxiosError(error) && error.response?.status === 404) {
-        return { pic: '', user: '', roles: [], accessToken: '', error: 'Username not found' }
+        return { pic: '', user: '', roles: [], accessToken: '', userId: -1, error: 'Username not found' }
       } else if (axiosLibrary.isAxiosError(error) && error.response?.status === 401) {
-        return { pic: '', user: '', roles: [], accessToken: '', error: 'Incorrect password' }
+        return { pic: '', user: '', roles: [], accessToken: '', userId: -1, error: 'Incorrect password' }
       } else {
-        return { pic: '', user: '', roles: [], accessToken: '', error: 'Unexpected error login in' }
+        return { pic: '', user: '', roles: [], accessToken: '', userId: -1, error: 'Unexpected error login in' }
       }
     }
   }

@@ -3,4 +3,5 @@ export interface AuthType {
   roles: Array<{ key: number, value: number }>
   user: string
   pic: string
+  userId: number
 }

@@ -5,6 +5,9 @@ import { type Event } from '@/types/Event'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useAuth from '@/hooks/useAuth'
 import { isNullOrUndefinedOrEmpty } from '@/utils/utils'
+import EventDialog from './event-dialog'
+import { CalendarPlus } from 'lucide-react'
+import { Button } from './ui/button'
 
 export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
   const { auth } = useAuth()
@@ -12,6 +15,7 @@ export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
   const [error, setError] = useState<string>('')
   const axiosPrivate = useAxiosPrivate()
   const [isLoading, setIsLoading] = useState(true)
+  const [open, setOpen] = useState(false)
   useEffect(() => {
     let isMounted = true
     const controller = new AbortController()
@@ -51,6 +55,11 @@ export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
   return (
     <section>
       <SectionHeading title='AGENDA'></SectionHeading>
+      <Button variant={'outline'} onClick={() => { setOpen(true) }}>
+        <CalendarPlus />
+        Nuevo evento
+      </Button>
+      <EventDialog open={open} setOpen={setOpen}/>
       {error !== '' && <p>{error}</p>}
       {!isLoading && <EventCalendar eventsInput={events} />}
     </section>
