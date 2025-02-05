@@ -51,7 +51,7 @@ export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
       controller.abort()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth])
+  }, [auth, open])
   return (
     <section>
       <SectionHeading title='AGENDA'></SectionHeading>
@@ -61,7 +61,7 @@ export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
       </Button>
       <EventDialog open={open} setOpen={setOpen}/>
       {error !== '' && <p>{error}</p>}
-      {!isLoading && <EventCalendar eventsInput={events} />}
+      {!isLoading && <EventCalendar eventsInput={events}/>}
     </section>
   )
 }
