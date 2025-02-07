@@ -27,6 +27,7 @@ import { useState } from 'react'
 import { PasswordInput } from './ui/password-input'
 import useAuth from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
+import { Checkbox } from './ui/checkbox'
 
 export function LoginForm () {
   const { setAuth } = useAuth()
@@ -37,7 +38,8 @@ export function LoginForm () {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       username: '',
-      password: ''
+      password: '',
+      persist: false
     }
   })
 
@@ -46,7 +48,8 @@ export function LoginForm () {
     // ✅ This will be type-safe and validated.
     const response = await authService.login({
       username: values.username,
-      password: values.password
+      password: values.password,
+      persist: values.persist
     })
     if (response.error !== null && response.error !== undefined) {
       setError(response.error)
@@ -109,6 +112,25 @@ export function LoginForm () {
                 Username or password is incorrect
               </FormMessage>
             )}
+            <FormField
+              control={form.control}
+              name="persist"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Mantener sesión iniciada
+                    </FormLabel>
+                  </div>
+                </FormItem>
+              )}
+        />
             <Button type='submit' className='w-full'>
               Login
             </Button>

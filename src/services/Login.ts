@@ -17,6 +17,7 @@ interface LoginResponse {
 interface LoginCredentials {
   username: string
   password: string
+  persist: boolean
 }
 
 class AuthService {
