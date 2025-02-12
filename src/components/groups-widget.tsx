@@ -6,6 +6,7 @@ import { Button } from './ui/button'
 import { EyeIcon, PlusIcon } from 'lucide-react'
 import useAuth from '@/hooks/useAuth'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
+import Link from 'next/link'
 
 const GroupsWidget = () => {
   const { auth } = useAuth()
@@ -17,12 +18,10 @@ const GroupsWidget = () => {
     const controller = new AbortController()
     async function fetchGroups (username: string): Promise<Group[]> {
       try {
-        const response = await axiosPrivate.get(`groups/${username}`,
-          {
-            signal: controller.signal,
-            withCredentials: true
-          }
-        )
+        const response = await axiosPrivate.get(`groups/${username}`, {
+          signal: controller.signal,
+          withCredentials: true
+        })
         return response.data
       } catch (error) {
         return []
@@ -43,12 +42,12 @@ const GroupsWidget = () => {
       isMounted = false
       controller.abort()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth])
 
   return (
     <section>
-      <SectionHeading title='GRUPOS'></SectionHeading>
+      <SectionHeading title='GRUPOS' link='/groups'></SectionHeading>
       {error !== '' && <p>{error}</p>}
       <ul className={'list-none grid grid-cols-2 gap-6 xl:grid-cols-3'}>
         {groups.slice(0, 5).map((group: Group) => (
@@ -57,13 +56,22 @@ const GroupsWidget = () => {
           </li>
         ))}
         <li key='buttons' className=' flex flex-col'>
-          <Button size='lg' variant='outline' className='rounded-lg mb-4'>
-            <PlusIcon className='mr-2 h-4 w-4'></PlusIcon>
-            Add group
+          <Button
+            asChild
+            size='lg'
+            variant='outline'
+            className='rounded-lg mb-4'
+          >
+            <Link href='/groups?new'>
+              <PlusIcon className='mr-2 h-4 w-4'></PlusIcon>
+              Add Group
+            </Link>
           </Button>
-          <Button size='lg' variant='secondary' className='rounded-lg'>
-            <EyeIcon className='mr-2 h-4 w-4'></EyeIcon>
-            View all
+          <Button asChild size='lg' variant='secondary' className='rounded-lg'>
+            <Link href='/groups'>
+              <EyeIcon className='mr-2 h-4 w-4'></EyeIcon>
+              View all
+            </Link>
           </Button>
         </li>
       </ul>

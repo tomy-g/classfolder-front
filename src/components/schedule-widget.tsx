@@ -54,7 +54,7 @@ export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
   }, [auth, open])
   return (
     <section>
-      <SectionHeading title='AGENDA'></SectionHeading>
+      <SectionHeading title='AGENDA' link={''}></SectionHeading>
       <Button variant={'outline'} onClick={() => { setOpen(true) }}>
         <CalendarPlus />
         Nuevo evento

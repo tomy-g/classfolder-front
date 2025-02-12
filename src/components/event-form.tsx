@@ -25,6 +25,7 @@ import { useEffect, useState } from 'react'
 import { type Group } from '@/types/Group'
 import useAuth from '@/hooks/useAuth'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
+import { Textarea } from './ui/textarea'
 
 export default function EventForm ({ onSave }: { onSave: () => void }) {
   const { auth } = useAuth()
@@ -123,7 +124,7 @@ export default function EventForm ({ onSave }: { onSave: () => void }) {
             <FormItem className='grid gap-2'>
               <FormLabel>Descripción</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Textarea {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
