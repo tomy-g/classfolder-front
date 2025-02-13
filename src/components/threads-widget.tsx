@@ -47,7 +47,7 @@ function ThreadsWidget ({ groupId }: { groupId?: number }) {
   }, [auth])
   return (
     <section>
-      <SectionHeading title={'NUEVOS HILOS'} />
+      <SectionHeading title={'NUEVOS HILOS'} link={'threads'} />
       {error !== '' && <p>{error}</p>}
       <ul>
         {threads.slice(0, 3).map((thread: Thread) => (

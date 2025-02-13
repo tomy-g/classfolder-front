@@ -46,7 +46,7 @@ export default function FilesWidget ({ groupId }: { groupId?: number }) {
   }, [auth])
   return (
     <section>
-      <SectionHeading title='ARCHIVOS DESTACADOS'></SectionHeading>
+      <SectionHeading title='ARCHIVOS DESTACADOS' link={'files'}></SectionHeading>
       {error !== '' && <p>{error}</p>}
       <ol className='list-none grid grid-cols-1 gap-4 2xl:grid-cols-2'>
         {files.slice(0, 6).map((file: File) => (
