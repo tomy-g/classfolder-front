@@ -44,8 +44,6 @@ export function LoginForm () {
   })
 
   async function onSubmit (values: z.infer<typeof loginSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     const response = await authService.login({
       username: values.username,
       password: values.password,
@@ -73,9 +71,9 @@ export function LoginForm () {
   return (
     <Card className='mx-auto max-w-sm'>
       <CardHeader>
-        <CardTitle className='text-2xl'>Login</CardTitle>
+        <CardTitle className='text-2xl'>Inicio de sesión</CardTitle>
         <CardDescription>
-          Enter your username and password below to login to your account
+          Introduce tus credenciales para acceder a tu cuenta
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -86,9 +84,9 @@ export function LoginForm () {
               name='username'
               render={({ field }) => (
                 <FormItem className='grid gap-2'>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Nombre de usuario</FormLabel>
                   <FormControl>
-                    <Input placeholder='example01' {...field} />
+                    <Input placeholder='ana123' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -99,7 +97,7 @@ export function LoginForm () {
               name='password'
               render={({ field }) => (
                 <FormItem className='grid gap-2'>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Contraseña</FormLabel>
                   <FormControl>
                     <PasswordInput {...field} />
                   </FormControl>
@@ -109,7 +107,7 @@ export function LoginForm () {
             />
             {(error !== '') && (
               <FormMessage>
-                Username or password is incorrect
+                Nombre de usuario o contraseña incorrectos
               </FormMessage>
             )}
             <FormField
@@ -132,14 +130,14 @@ export function LoginForm () {
               )}
         />
             <Button type='submit' className='w-full'>
-              Login
+              Iniciar sesión
             </Button>
           </form>
         </Form>
         <div className='mt-4 text-center text-sm'>
-          Don&apos;t have an account?{' '}
+          ¿No tienes cuenta? {' '}
           <Link href='/register' className='underline'>
-            Sign up
+            Regístrate aquí
           </Link>
         </div>
       </CardContent>

@@ -60,9 +60,9 @@ export function RegisterForm () {
   return (
     <Card className='mx-auto max-w-sm'>
       <CardHeader>
-        <CardTitle className='text-2xl'>Register</CardTitle>
+        <CardTitle className='text-2xl'>Registro</CardTitle>
         <CardDescription>
-          Enter an username and password below to register a new account
+          Introduce un nombre de usuario y una contraseña para registrarte.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -73,10 +73,10 @@ export function RegisterForm () {
               name='username'
               render={({ field }) => (
                 <FormItem className='grid gap-2'>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Nombre de usuario</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='example01'
+                      placeholder='ana123'
                       {...field}
                       onBlur={async () => {
                         const usernameDoesNotExist =
@@ -101,9 +101,9 @@ export function RegisterForm () {
               name='firstName'
               render={({ field }) => (
                 <FormItem className='grid gap-2'>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel>Nombre</FormLabel>
                   <FormControl>
-                    <Input placeholder='Anna' {...field} />
+                    <Input placeholder='Ana' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -114,7 +114,7 @@ export function RegisterForm () {
               name='lastName'
               render={({ field }) => (
                 <FormItem className='grid gap-2'>
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel>Apellido</FormLabel>
                   <FormControl>
                     <Input placeholder='Adams' {...field} />
                   </FormControl>
@@ -127,7 +127,7 @@ export function RegisterForm () {
               name='password'
               render={({ field }) => (
                 <FormItem className='grid gap-2'>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Contraseña</FormLabel>
                   <FormControl>
                     <PasswordInput {...field} />
                   </FormControl>
@@ -140,7 +140,7 @@ export function RegisterForm () {
               name='passwordConfirmation'
               render={({ field }) => (
                 <FormItem className='grid gap-2'>
-                  <FormLabel>Confirm password</FormLabel>
+                  <FormLabel>Confirma tu contraseña</FormLabel>
                   <FormControl>
                     <PasswordInput {...field} />
                   </FormControl>
@@ -150,18 +150,18 @@ export function RegisterForm () {
             />
             {(error !== '') && (
               <FormMessage>
-                Something went wrong. Please try again.
+                Algo salió mal. Por favor, intentalo de nuevo.
               </FormMessage>
             )}
             <Button type='submit' className='w-full'>
-              Register
+              Registrar cuenta
             </Button>
           </form>
         </Form>
         <div className='mt-4 text-center text-sm'>
-          Already have an account?{' '}
+          ¿Ya tienes una cuenta?{' '}
           <Link href='/login' className='underline'>
-            Log in
+            Inicia sesión aquí
           </Link>
         </div>
       </CardContent>
