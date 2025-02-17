@@ -6,7 +6,7 @@ import {
   DialogTitle
 } from './ui/dialog'
 import { useRouter } from 'next/navigation'
-import GroupForm from './group-form'
+import FileForm from './file-form'
 
 export default function GroupDialog ({
   open,
@@ -24,9 +24,9 @@ export default function GroupDialog ({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className='sm:max-w-[425px]'>
           <DialogHeader>
-            <DialogTitle>Crear nuevo grupo</DialogTitle>
+            <DialogTitle>Subir nuevo archivo</DialogTitle>
           </DialogHeader>
-          <GroupForm onSave={handleCloseDialog} />
+          <FileForm onSave={handleCloseDialog} />
         </DialogContent>
       </Dialog>
   )

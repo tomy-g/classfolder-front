@@ -62,6 +62,7 @@ export default function Page () {
         <FilePlus />
         Nuevo archivo
       </Button>
+      {/* <UploadButton endpoint={'imageUploader'} /> */}
       <FileDialog open={open} setOpen={setOpen}/>
       {error && <p className='text-red-500'>{error}</p>}
       <ol className='list-none flex flex-col gap-4 w-1/3'>
