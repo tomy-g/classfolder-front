@@ -2,7 +2,9 @@
 import { ScheduleXCalendar, useNextCalendarApp } from '@schedule-x/react'
 import {
   type CalendarEventExternal,
-  viewMonthAgenda
+  type CalendarType,
+  viewMonthAgenda,
+  viewMonthGrid
 } from '@schedule-x/calendar'
 import { createEventsServicePlugin } from '@schedule-x/events-service'
 import { useTheme } from 'next-themes'
@@ -11,14 +13,34 @@ import { useEffect, useState } from 'react'
 import '../utils/schedule.css'
 import '../app/globals.css'
 import { type Event } from '@/types/Event'
+import { type Group } from '@/types/Group'
+import uniqolor from 'uniqolor'
 
-export default function EventCalendar ({ eventsInput }: { eventsInput: Event[] }) {
+export default function EventCalendar ({ eventsInput, groupsInput }: { eventsInput: Event[], groupsInput: Group[] }) {
   const [finalEvents, setFinalEvents] = useState<any[]>([])
+  const finalCalendars = groupsInput.reduce<Record<string, CalendarType>>((acc, group) => {
+    acc[group.id] = {
+      label: group.title,
+      colorName: group.id,
+      lightColors: {
+        main: uniqolor(group.title.toString() + group.id, { differencePoint: 50 }).color,
+        container: '#F1F5F9',
+        onContainer: '#020817'
+      },
+      darkColors: {
+        main: uniqolor(group.title.toString() + group.id).color,
+        container: '#1E293B',
+        onContainer: '#F8FAFC'
+      }
+    }
+    return acc
+  }, {})
+
   function formatDate (inputDate: Date) {
     const date = inputDate instanceof Date ? inputDate : new Date(inputDate)
     // Extract year, month, day, hours, and minutes
     const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0') // Months are 0-based
+    const month = String(date.getMonth() + 1).padStart(2, '0')
     const day = String(date.getDate()).padStart(2, '0')
     const hours = String(date.getHours()).padStart(2, '0')
     const minutes = String(date.getMinutes()).padStart(2, '0')
@@ -36,52 +58,39 @@ export default function EventCalendar ({ eventsInput }: { eventsInput: Event[] }
         title: event.title,
         start: formatDate(event.date),
         end: formatDate(event.date),
-        calendarId: 'johndoe'
+        calendarId: event.groupId.toString(),
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        description: `${event.groupName.toUpperCase()}${event.description ? `: ${event.description}` : ''}`
       }
     })
   }
+
   const eventModal = createEventModalPlugin()
   const { theme } = useTheme()
   const eventsServicePlugin = createEventsServicePlugin()
   const calendarApp = useNextCalendarApp({
-    views: [viewMonthAgenda],
+    views: [viewMonthGrid, viewMonthAgenda],
     locale: 'es-ES',
     isDark: theme === 'dark',
     theme: 'shadcn',
     plugins: [eventModal, eventsServicePlugin],
-    calendars: {
-      johndoe: {
-        label: 'John Doe',
-        colorName: 'johndoe',
-        lightColors: {
-          main: '#3667DB',
-          container: '#F1F5F9',
-          onContainer: '#020817'
-        },
-        darkColors: {
-          main: '#3B82F6',
-          container: '#1E293B',
-          onContainer: '#F8FAFC'
-        }
-      }
-    },
-    // selectedDate: '2023-12-01',
+    calendars: finalCalendars,
+
     // eslint-disable-next-line object-shorthand
     events: []
   })
+
   useEffect(() => {
     calendarApp?.setTheme(theme === 'light' ? 'light' : 'dark')
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [theme])
+  }, [theme, calendarApp])
   useEffect(() => {
-    console.log('se ejecuta el useEffect')
     async function fetchEvents () {
       // eslint-disable-next-line @typescript-eslint/await-thenable
       const convertedEvents = await convertEvents(eventsInput)
       // const fetchedEvents = await mockEvents()
       // convertedEvents = fetchedEvents
       // setEvents(fetchedEvents)
-
       setFinalEvents(convertedEvents)
 
       // if (eventsServicePlugin !== undefined) {
@@ -92,9 +101,10 @@ export default function EventCalendar ({ eventsInput }: { eventsInput: Event[] }
     fetchEvents()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventsInput])
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  calendarApp?.events.set(finalEvents)
+  if (groupsInput.length > 0) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    calendarApp?.events.set(finalEvents)
+  }
   return (
     <div className='schedule'>
       <ScheduleXCalendar calendarApp={calendarApp} />
