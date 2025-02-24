@@ -11,7 +11,7 @@ import { Button } from './ui/button'
 import { type Group } from '@/types/Group'
 import { useDebounce } from 'use-debounce'
 
-export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
+export default function ScheduleWidget ({ globalFilter, groupId }: { globalFilter: string, groupId?: number }) {
   const { auth } = useAuth()
   const [events, setEvents] = useState<Event[]>([])
   const [groups, setGroups] = useState<Group[]>([])
@@ -31,7 +31,9 @@ export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
         if (!isNullOrUndefinedOrEmpty(groupId)) {
           url += `/${groupId}`
         }
-        if (!isNullOrUndefinedOrEmpty(debouncedTextFilter)) {
+        if (!isNullOrUndefinedOrEmpty(globalFilter)) {
+          url += `?search=${globalFilter}`
+        } else if (!isNullOrUndefinedOrEmpty(debouncedTextFilter)) {
           url += `?search=${debouncedTextFilter}`
         }
         const response = await axiosPrivate.get(url,
@@ -48,7 +50,7 @@ export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
     async function getEvents () {
       const response = await fetchEvents(auth?.user ?? '')
       if (response.length < 1) {
-        setError('No events found')
+        setError('No se han encontrado eventos')
         isMounted && setEvents([])
         isMounted && setIsLoading(false)
       } else {
@@ -89,10 +91,10 @@ export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
       controller.abort()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth, open, debouncedTextFilter])
+  }, [auth, open, debouncedTextFilter, globalFilter])
   return (
     <section>
-      <SectionHeading title='AGENDA' link={''} textFilter={textFilter} setTextFilter={setTextFilter}></SectionHeading>
+      <SectionHeading title='AGENDA' link={''} isFilterDisabled={Boolean(globalFilter)} textFilter={textFilter} setTextFilter={setTextFilter}></SectionHeading>
       <span>{debouncedTextFilter}</span>
       <Button variant={'outline'} onClick={() => { setOpen(true) }}>
         <CalendarPlus />

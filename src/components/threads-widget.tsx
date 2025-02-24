@@ -1,22 +1,35 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SectionHeading from './section-heading'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useAuth from '@/hooks/useAuth'
 import { type Thread } from '@/types/Thread'
 import ThreadCard from './thread-card'
 import { isNullOrUndefinedOrEmpty } from '@/utils/utils'
+import { useDebounce } from 'use-debounce'
 
-function ThreadsWidget ({ groupId }: { groupId?: number }) {
+function ThreadsWidget ({ globalFilter, groupId }: { globalFilter: string, groupId?: number }) {
   const { auth } = useAuth()
   const [threads, setThreads] = React.useState<Thread[]>([])
   const [error, setError] = React.useState<string>('')
   const axiosPrivate = useAxiosPrivate()
+  const [isLoading, setIsLoading] = useState(true)
+  const [textFilter, setTextFilter] = useState<string>('')
+  const [debouncedTextFilter] = useDebounce(textFilter, 500)
+
   useEffect(() => {
     let isMounted = true
     const controller = new AbortController()
     async function fetchThreads (username: string): Promise<Thread[]> {
       try {
-        const url = isNullOrUndefinedOrEmpty(groupId) ? `threads/${username}` : `threads/${username}/${groupId}`
+        let url = `threads/${username}`
+        if (!isNullOrUndefinedOrEmpty(groupId)) {
+          url += `/${groupId}`
+        }
+        if (!isNullOrUndefinedOrEmpty(globalFilter)) {
+          url += `?search=${globalFilter}`
+        } else if (!isNullOrUndefinedOrEmpty(debouncedTextFilter)) {
+          url += `?search=${debouncedTextFilter}`
+        }
         const response = await axiosPrivate.get(url,
           {
             signal: controller.signal,
@@ -32,9 +45,12 @@ function ThreadsWidget ({ groupId }: { groupId?: number }) {
       const response = await fetchThreads(auth?.user ?? '')
       if (response.length < 1) {
         setError('No se han encontrado hilos')
+        isMounted && setThreads([])
+        isMounted && setIsLoading(false)
       } else {
         setError('')
         isMounted && setThreads(response)
+        isMounted && setIsLoading(false)
       }
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -44,18 +60,18 @@ function ThreadsWidget ({ groupId }: { groupId?: number }) {
       controller.abort()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth])
+  }, [auth, debouncedTextFilter, globalFilter])
   return (
     <section>
-      <SectionHeading title={'NUEVOS HILOS'} link={'threads'} />
+      <SectionHeading title={'NUEVOS HILOS'} link={'threads'} isFilterDisabled={Boolean(globalFilter)} textFilter={textFilter} setTextFilter={setTextFilter}/>
       {error !== '' && <p>{error}</p>}
-      <ul>
+      { !isLoading && <ul>
         {threads.slice(0, 3).map((thread: Thread) => (
           <li key={thread.id}>
             <ThreadCard thread={thread} />
           </li>
         ))}
-      </ul>
+      </ul>}
     </section>
   )
 }

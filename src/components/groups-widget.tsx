@@ -7,18 +7,29 @@ import { EyeIcon, PlusIcon } from 'lucide-react'
 import useAuth from '@/hooks/useAuth'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import Link from 'next/link'
+import { useDebounce } from 'use-debounce'
+import { isNullOrUndefinedOrEmpty } from '@/utils/utils'
 
-const GroupsWidget = () => {
+const GroupsWidget = ({ globalFilter }: { globalFilter: string }) => {
   const { auth } = useAuth()
   const [groups, setGroups] = useState<Group[]>([])
   const [error, setError] = useState<string>('')
   const axiosPrivate = useAxiosPrivate()
+  const [isLoading, setIsLoading] = useState(true)
+  const [textFilter, setTextFilter] = useState<string>('')
+  const [debouncedTextFilter] = useDebounce(textFilter, 500)
   useEffect(() => {
     let isMounted = true
     const controller = new AbortController()
     async function fetchGroups (username: string): Promise<Group[]> {
       try {
-        const response = await axiosPrivate.get(`groups/${username}`, {
+        let url = `groups/${username}`
+        if (!isNullOrUndefinedOrEmpty(globalFilter)) {
+          url += `?search=${globalFilter}`
+        } else if (!isNullOrUndefinedOrEmpty(debouncedTextFilter)) {
+          url += `?search=${debouncedTextFilter}`
+        }
+        const response = await axiosPrivate.get(url, {
           signal: controller.signal,
           withCredentials: true
         })
@@ -31,9 +42,12 @@ const GroupsWidget = () => {
       const response = await fetchGroups(auth?.user ?? '')
       if (response.length < 1) {
         setError('No groups found')
+        isMounted && setGroups([])
+        isMounted && setIsLoading(false)
       } else {
         setError('')
         isMounted && setGroups(response)
+        isMounted && setIsLoading(false)
       }
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -43,13 +57,13 @@ const GroupsWidget = () => {
       controller.abort()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth])
+  }, [auth, debouncedTextFilter, globalFilter])
 
   return (
     <section>
-      <SectionHeading title='GRUPOS' link='/groups'></SectionHeading>
+      <SectionHeading title='GRUPOS' link='/groups' isFilterDisabled={Boolean(globalFilter)} textFilter={textFilter} setTextFilter={setTextFilter}></SectionHeading>
       {error !== '' && <p>{error}</p>}
-      <ul className={'list-none grid grid-cols-2 gap-6 xl:grid-cols-3'}>
+      { !isLoading && <ul className={'list-none grid grid-cols-2 gap-6 xl:grid-cols-3'}>
         {groups.slice(0, 5).map((group: Group) => (
           <li key={group.id}>
             <GroupCover group={group} />
@@ -74,7 +88,7 @@ const GroupsWidget = () => {
             </Link>
           </Button>
         </li>
-      </ul>
+      </ul> }
     </section>
   )
 }
