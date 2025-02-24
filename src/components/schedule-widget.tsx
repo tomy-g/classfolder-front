@@ -9,6 +9,7 @@ import EventDialog from './event-dialog'
 import { CalendarPlus } from 'lucide-react'
 import { Button } from './ui/button'
 import { type Group } from '@/types/Group'
+import { useDebounce } from 'use-debounce'
 
 export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
   const { auth } = useAuth()
@@ -18,12 +19,21 @@ export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
   const axiosPrivate = useAxiosPrivate()
   const [isLoading, setIsLoading] = useState(true)
   const [open, setOpen] = useState(false)
+
+  const [textFilter, setTextFilter] = useState<string>('')
+  const [debouncedTextFilter] = useDebounce(textFilter, 500)
   useEffect(() => {
     let isMounted = true
     const controller = new AbortController()
     async function fetchEvents (username: string): Promise<Event[]> {
       try {
-        const url = isNullOrUndefinedOrEmpty(groupId) ? `events/${username}` : `events/${username}/${groupId}`
+        let url = `events/${username}`
+        if (!isNullOrUndefinedOrEmpty(groupId)) {
+          url += `/${groupId}`
+        }
+        if (!isNullOrUndefinedOrEmpty(debouncedTextFilter)) {
+          url += `?search=${debouncedTextFilter}`
+        }
         const response = await axiosPrivate.get(url,
           {
             signal: controller.signal,
@@ -39,6 +49,7 @@ export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
       const response = await fetchEvents(auth?.user ?? '')
       if (response.length < 1) {
         setError('No events found')
+        isMounted && setEvents([])
         isMounted && setIsLoading(false)
       } else {
         setError('')
@@ -78,10 +89,11 @@ export default function ScheduleWidget ({ groupId }: { groupId?: number }) {
       controller.abort()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth, open])
+  }, [auth, open, debouncedTextFilter])
   return (
     <section>
-      <SectionHeading title='AGENDA' link={''}></SectionHeading>
+      <SectionHeading title='AGENDA' link={''} textFilter={textFilter} setTextFilter={setTextFilter}></SectionHeading>
+      <span>{debouncedTextFilter}</span>
       <Button variant={'outline'} onClick={() => { setOpen(true) }}>
         <CalendarPlus />
         Nuevo evento

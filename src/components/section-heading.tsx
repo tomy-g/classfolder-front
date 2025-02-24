@@ -1,11 +1,15 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { type Dispatch, type SetStateAction } from 'react'
+import SearchInput from './ui/search-input'
 
-const SectionHeading = ({ title, link }: { title: string, link: string }) => {
+const SectionHeading = ({ title, link, textFilter, setTextFilter }: { title: string, link: string, textFilter: string, setTextFilter: Dispatch<SetStateAction<string>> }) => {
   return (
-    <h2 className=' border-b mb-3 pb-1 mx-1 '>
-      <Link href={link ?? ''}>{title}</Link>
-    </h2>
+    <div className='flex flex-row border-b mb-3 pb-1 mx-1 items-end justify-between'>
+      <h2 className='inline-flex w-4/5'>
+        <Link href={link ?? ''}>{title}</Link>
+      </h2>
+      <SearchInput textFilter={textFilter} setTextFilter={setTextFilter}></SearchInput>
+    </div>
   )
 }
 
