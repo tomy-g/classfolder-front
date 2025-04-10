@@ -81,17 +81,13 @@ export default function Page () {
       const community =
         communities.find(c => Number(c.id) === communityId) ?? null
       acc[communityId] = {
-        title: community?.title ?? 'No Community',
+        title: community?.title ?? 'Sin comunidad',
         groups: []
       }
     }
     acc[communityId].groups.push(group)
     return acc
   }, {})
-
-  // Extract all keys as strings to match AccordionItem `value`
-  const accordionKeys = Object.keys(groupedByCommunity).map(String)
-  console.log('accordionKeys', accordionKeys)
 
   return (
     <main className='flex mx-auto my-8 w-full max-w-screen-3xl items-center justify-center px-4 flex-col'>
