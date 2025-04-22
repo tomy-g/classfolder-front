@@ -62,7 +62,7 @@ export default function Header () {
                     buttonVariants({ variant: 'ghost', size: 'lg' }),
                     'justify-start hover:bg-transparent'
                   )}
-                  href='#'
+                  href='/groups'
                 >
                   Groups
                 </Link>
@@ -71,7 +71,7 @@ export default function Header () {
                     buttonVariants({ variant: 'ghost', size: 'lg' }),
                     'justify-start hover:bg-transparent'
                   )}
-                  href='#'
+                  href='/profile'
                 >
                   Profile
                 </Link>
@@ -126,13 +126,13 @@ export default function Header () {
           <>
             <Link
               className={cn(buttonVariants({ variant: 'ghost' }), '')}
-              href='#'
+              href='/groups'
             >
               Groups
             </Link>
             <Link
               className={cn(buttonVariants({ variant: 'ghost' }), '')}
-              href='#'
+              href='/profile'
             >
               Profile
             </Link>

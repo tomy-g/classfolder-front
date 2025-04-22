@@ -22,6 +22,7 @@ const useRefreshToken = () => {
           userId: response.data.userId
         }
       })
+      return response.data.accessToken
     } catch (error) {
       return ''
     }
