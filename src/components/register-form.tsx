@@ -26,10 +26,13 @@ import { type z } from 'zod'
 import { PasswordInput } from './ui/password-input'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { type ExternalFile } from '@/types/ExternalFile'
+import { UploadButton } from './upload-button'
 
 export function RegisterForm () {
   const [error, setError] = useState('')
   const router = useRouter()
+  const [externalInfo, setExternalInfo] = useState<ExternalFile>({ extension: '', externalKey: '' })
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -41,14 +44,26 @@ export function RegisterForm () {
     }
   })
 
+  function completeData (data: any) {
+    if (externalInfo?.externalKey !== undefined && externalInfo?.externalKey !== null) {
+      data.pic = externalInfo?.externalKey
+    } else {
+      data.pic = null
+    }
+    return data
+  }
+
   async function onSubmit (values: z.infer<typeof registerSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+    const completedData = completeData(values)
     const response = await authService.register({
-      username: values.username,
-      firstName: values.firstName,
-      lastName: values.lastName,
-      password: values.password
+      username: completedData.username,
+      firstName: completedData.firstName,
+      lastName: completedData.lastName,
+      password: completedData.password,
+      pic: completedData?.pic
     })
     if (response.error !== null && response.error !== undefined) {
       setError(response.error)
@@ -148,6 +163,15 @@ export function RegisterForm () {
                 </FormItem>
               )}
             />
+            <UploadButton endpoint={'profilePicUploader'}
+                          content={{ allowedContent: 'png, jpeg...', button: 'Imagen de perfil' }}
+                          disabled={externalInfo?.externalKey.length > 0}
+                          onClientUploadComplete={ async (res) => {
+                            console.log('res: ', res)
+                            setExternalInfo({ externalKey: res[0].key, extension: res[0].name.split('.').pop() ?? '' })
+                            // await form.handleSubmit(onSubmit)()
+                          } }
+                        />
             {(error !== '') && (
               <FormMessage>
                 Algo salió mal. Por favor, intentalo de nuevo.

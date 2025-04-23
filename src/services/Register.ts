@@ -14,6 +14,7 @@ interface RegisterCredentials {
   firstName: string
   lastName: string
   password: string
+  pic?: string
 }
 
 class AuthService {
