@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 const GroupCover = ({ group }: { group: Group }) => {
   return (
-    <Link href={`/group/${group.id}`}>
+    <Link href={`/groups/${group.id}`}>
     <Card className={cn('aspect-square rounded-3xl w-full')}>
       <CardHeader>
         <CardTitle>{group.title}</CardTitle>

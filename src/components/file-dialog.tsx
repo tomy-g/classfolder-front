@@ -10,10 +10,12 @@ import FileForm from './file-form'
 
 export default function GroupDialog ({
   open,
-  setOpen
+  setOpen,
+  groupId
 }: {
   open: boolean
   setOpen: (open: boolean) => void
+  groupId: number | undefined | null
 }) {
   const router = useRouter()
   function handleCloseDialog () {
@@ -26,7 +28,7 @@ export default function GroupDialog ({
           <DialogHeader>
             <DialogTitle>Subir nuevo archivo</DialogTitle>
           </DialogHeader>
-          <FileForm onSave={handleCloseDialog} />
+          <FileForm groupId={groupId} onSave={handleCloseDialog} />
         </DialogContent>
       </Dialog>
   )

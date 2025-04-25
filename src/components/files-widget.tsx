@@ -61,7 +61,8 @@ export default function FilesWidget ({ globalFilter, groupId }: { globalFilter: 
   }, [auth, debouncedTextFilter, globalFilter])
   return (
     <section>
-      <SectionHeading title='ARCHIVOS DESTACADOS' link={'files'} isFilterDisabled={Boolean(globalFilter)} textFilter={textFilter} setTextFilter={setTextFilter}></SectionHeading>
+      <SectionHeading title='ARCHIVOS DESTACADOS' link={
+      !isNullOrUndefinedOrEmpty(groupId) ? `${groupId}/files` : 'files'} isFilterDisabled={Boolean(globalFilter)} textFilter={textFilter} setTextFilter={setTextFilter}></SectionHeading>
       {error !== '' && <p>{error}</p>}
       {!isLoading && <ol className='list-none grid grid-cols-1 gap-4 2xl:grid-cols-2'>
         {files.slice(0, 6).map((file: File) => (

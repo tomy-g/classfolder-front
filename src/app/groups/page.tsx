@@ -106,7 +106,7 @@ export default function Page () {
             </AccordionTrigger>
             <AccordionContent className='grid gap-4 p-4'>
               {community.groups.map(group => (
-                <Link key={group.id} href={`/group/${group.id}`}>
+                <Link key={group.id} href={`/groups/${group.id}`}>
                   <Card className='cursor-pointer hover:border-primary transition duration-100 ease-in-out'>
                     <CardContent className='flex items-center gap-4 p-4'>
                       <span>{group.title}</span>
