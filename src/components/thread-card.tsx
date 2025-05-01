@@ -11,15 +11,18 @@ import {
   CardContent
 } from './ui/card'
 import { type Thread } from '@/types/Thread'
+import Link from 'next/link'
 
 const ThreadCard = ({ thread }: { thread: Thread }) => {
   return (
     <Card className='mb-4' >
       <CardHeader className='flex flex-col items-start'>
         <div className='flex flex-col'>
-          <CardTitle className='text-base font-semibold'>
-            {thread.title}
-          </CardTitle>
+          <Link href={`/threads/${thread.id}`} className='hover:underline'>
+            <CardTitle className='text-base font-semibold'>
+              {thread.title}
+            </CardTitle>
+          </Link>
           <CardDescription className='text-sm leading-none mt-1'>
             by {thread.creatorUsername}
           </CardDescription>

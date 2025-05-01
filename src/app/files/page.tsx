@@ -58,12 +58,12 @@ export default function Page () {
   return (
     <main className='flex mx-auto my-8 w-full max-w-screen-3xl items-center justify-center px-4 flex-col'>
       <h2 className='text-2xl font-semibold mb-6'>Archivos destacados de todos tus grupos</h2>
-      <Button variant={'outline'} onClick={() => { setOpen(true) }}>
+      <Button className='mb-4' variant={'outline'} onClick={() => { setOpen(true) }}>
         <FilePlus />
         Nuevo archivo
       </Button>
       {/* <UploadButton endpoint={'imageUploader'} /> */}
-      <FileDialog open={open} setOpen={setOpen}/>
+      <FileDialog groupId={null} open={open} setOpen={setOpen}/>
       {error && <p className='text-red-500'>{error}</p>}
       <ol className='list-none flex flex-col gap-4 w-1/3'>
         {files.map((file: File) => (

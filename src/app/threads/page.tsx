@@ -2,7 +2,6 @@
 
 'use client'
 
-import FileDialog from '@/components/file-dialog'
 import { Button } from '@/components/ui/button'
 import useAuth from '@/hooks/useAuth'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
@@ -11,6 +10,7 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { type Thread } from '@/types/Thread'
 import ThreadCard from '@/components/thread-card'
+import ThreadDialog from '@/components/thread-dialog'
 
 export default function Page () {
   const searchParams = useSearchParams()
@@ -58,11 +58,11 @@ export default function Page () {
   return (
     <main className='flex mx-auto my-8 w-full max-w-screen-3xl items-center justify-center px-4 flex-col'>
       <h2 className='text-2xl font-semibold mb-6'>Hilos de todos tus grupos</h2>
-      <Button variant={'outline'} onClick={() => { setOpen(true) }}>
+      <Button className='mb-4' variant={'outline'} onClick={() => { setOpen(true) }}>
         <FilePlus />
-        Nuevo archivo
+        Nuevo hilo
       </Button>
-      <FileDialog open={open} setOpen={setOpen}/>
+      <ThreadDialog groupId={null} open={open} setOpen={setOpen}/>
       {error && <p className='text-red-500'>{error}</p>}
       <ul className='w-1/2'>
         {threads.map((thread: Thread) => (
