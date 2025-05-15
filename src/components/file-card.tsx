@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import React from 'react'
 import { FileIcon, ImageIcon, FileTextIcon, Download } from 'lucide-react'
+import Link from 'next/link'
 
 const getFileIcon = (extension: string) => {
   switch (extension) {
@@ -16,6 +17,8 @@ const getFileIcon = (extension: string) => {
       return <ImageIcon className='h-6 w-6 text-blue-500' aria-hidden='true' />
     case 'ppt':
       return <FileIcon className='h-6 w-6 text-orange-500' aria-hidden='true' />
+    case 'doc':
+      return <FileIcon className='h-6 w-6 text-green-500' aria-hidden='true' />
     default:
       return <FileIcon className='h-6 w-6 text-gray-500' aria-hidden='true' />
   }
@@ -48,10 +51,12 @@ const FileCard = ({ file }: { file: File }) => {
           {getFileIcon(file.extension)}
         </div>
         <div className='flex-grow min-w-0'>
-          <h3 className='text-lg font-semibold truncate'>
-            <span className='sr-only'>File name: </span>
-            {file.title}
-          </h3>
+          <Link href={`/files/${file.id}`} className='hover:underline'>
+            <h3 className='text-lg font-semibold truncate'>
+              <span className='sr-only'>File name: </span>
+              {file.title}
+            </h3>
+          </Link>
           <div className='flex items-center mt-2'>
             <Avatar className='h-6 w-6 mr-2'>
               <AvatarImage src={file.authorAvatar} alt='' />

@@ -225,7 +225,7 @@ export default function FileForm ({
 
         <UploadButton
           endpoint={'documentUploader'}
-          content={{ allowedContent: 'pdf, docx...', button: 'Subir Archivo' }}
+          content={{ allowedContent: 'pdf, docx, png...', button: 'Subir Archivo' }}
           disabled={!form.formState.isValid}
           onClientUploadComplete={async res => {
             console.log('res: ', res)

@@ -1,4 +1,4 @@
-type FileExtension = 'pdf' | 'doc' | 'png' | 'csv' | 'xls' | 'jpeg' | 'txt'
+type FileExtension = 'pdf' | 'doc' | 'png' | 'csv' | 'xls' | 'jpeg' | 'jpg' | 'txt'
 
 export interface File {
   id: number
@@ -10,4 +10,5 @@ export interface File {
   extension: FileExtension
   authorAvatar: string
   group: string
+  externalKey: string
 }

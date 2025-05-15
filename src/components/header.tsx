@@ -33,6 +33,13 @@ export default function Header () {
 
   return (
     <header className='flex h-20 shrink-0 items-center max-w-screen-3xl px-10 mx-auto '>
+      <Link className='mr-6 lg:hidden' href='/'>
+        <div className='flex items-center justify-center gap-3'>
+          <FolderOpen className='h-6 w-6' />
+          <h1 className='text-2xl font-medium'>Class Folder</h1>
+        </div>
+        <span className='sr-only'>Class Folder</span>
+      </Link>
       <Sheet>
         <SheetTrigger asChild>
           <Button className='lg:hidden ml-auto' size='icon' variant='outline'>
@@ -64,7 +71,7 @@ export default function Header () {
                   )}
                   href='/groups'
                 >
-                  Groups
+                  Grupos
                 </Link>
                 <Link
                   className={cn(
@@ -73,7 +80,16 @@ export default function Header () {
                   )}
                   href='/profile'
                 >
-                  Profile
+                  Perfil
+                </Link>
+                <Link
+                  className={cn(
+                    buttonVariants({ variant: 'ghost', size: 'lg' }),
+                    'justify-start hover:bg-transparent'
+                  )}
+                  href='/messages'
+                >
+                  Mensajes
                 </Link>
                 <Link
                   className={cn(
@@ -83,7 +99,7 @@ export default function Header () {
                   onClick={logOut}
                   href='#'
                 >
-                  Log out
+                  Cerrar sesión
                 </Link>
               </>
                 )
@@ -96,7 +112,7 @@ export default function Header () {
                   )}
                   href='/login'
                 >
-                  Log in
+                  Iniciar sesión
                 </Link>
                 <Link
                   className={cn(
@@ -105,7 +121,7 @@ export default function Header () {
                   )}
                   href='/register'
                 >
-                  Register
+                  Registro
                 </Link>
               </>
                 )}
@@ -113,8 +129,11 @@ export default function Header () {
           </div>
         </SheetContent>
       </Sheet>
-      <Link className='mr-6 hidden lg:flex' href='#'>
-        <FolderOpen className='h-6 w-6' />
+      <Link className='mr-6 hidden lg:flex' href='/'>
+        <div className='flex items-center justify-center gap-3'>
+          <FolderOpen className='h-6 w-6' />
+          <h1 className='text-2xl font-medium'>Class Folder</h1>
+        </div>
         <span className='sr-only'>Class Folder</span>
       </Link>
       <nav className='ml-auto hidden lg:flex gap-6'>
@@ -128,20 +147,26 @@ export default function Header () {
               className={cn(buttonVariants({ variant: 'ghost' }), '')}
               href='/groups'
             >
-              Groups
+              Grupos
             </Link>
             <Link
               className={cn(buttonVariants({ variant: 'ghost' }), '')}
               href='/profile'
             >
-              Profile
+              Perfil
+            </Link>
+            <Link
+              className={cn(buttonVariants({ variant: 'ghost' }), '')}
+              href='/messages'
+            >
+              Mensajes
             </Link>
             <Link
               className={cn(buttonVariants({ variant: 'ghost' }), '')}
               href='#'
               onClick={logOut}
             >
-              Log out
+              Cerrar sesión
             </Link>
           </>
             )
@@ -151,13 +176,13 @@ export default function Header () {
               className={cn(buttonVariants({ variant: 'ghost' }), '')}
               href='/login'
             >
-              Log in
+              Iniciar sesión
             </Link>
             <Link
               className={cn(buttonVariants({ variant: 'ghost' }), '')}
               href='/register'
             >
-              Register
+              Registro
             </Link>
           </>
             )}

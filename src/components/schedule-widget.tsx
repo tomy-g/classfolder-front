@@ -95,8 +95,7 @@ export default function ScheduleWidget ({ globalFilter, groupId }: { globalFilte
   return (
     <section>
       <SectionHeading title='AGENDA' link={''} isFilterDisabled={Boolean(globalFilter)} textFilter={textFilter} setTextFilter={setTextFilter}></SectionHeading>
-      <span>{debouncedTextFilter}</span>
-      <Button variant={'outline'} onClick={() => { setOpen(true) }}>
+      <Button className='mb-2' variant={'outline'} onClick={() => { setOpen(true) }}>
         <CalendarPlus />
         Nuevo evento
       </Button>
