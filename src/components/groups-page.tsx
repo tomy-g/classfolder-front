@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 
 'use client'
@@ -15,9 +16,10 @@ import {
 import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { FolderPlus } from 'lucide-react'
+import { FolderPlus, Users } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import GroupDialog from '@/components/group-dialog'
+import CommunityDialog from './community-dialog'
 
 export default function GroupsPage () {
   const searchParams = useSearchParams()
@@ -26,7 +28,8 @@ export default function GroupsPage () {
   const [communities, setCommunities] = useState<Community[]>([])
   const [groups, setGroups] = useState<Group[]>([])
   const [error, setError] = useState<string>('')
-  const [open, setOpen] = useState(isOpen)
+  const [groupsOpen, setGroupsOpen] = useState(isOpen)
+  const [communitiesOpen, setCommunitiesOpen] = useState(false)
   const axiosPrivate = useAxiosPrivate()
 
   useEffect(() => {
@@ -92,11 +95,18 @@ export default function GroupsPage () {
   return (
     <main className='flex mx-auto my-8 w-full max-w-screen-3xl items-center justify-center px-4 flex-col'>
       <h2 className='text-2xl font-semibold mb-6'>Todos tus Grupos</h2>
-      <Button variant={'outline'} onClick={() => { setOpen(true) }}>
+      <div className='flex gap-4 mb-4'>
+      <Button variant={'outline'} onClick={() => { setGroupsOpen(true) }}>
         <FolderPlus />
         Nuevo grupo
       </Button>
-      <GroupDialog open={open} setOpen={setOpen}/>
+      <Button variant={'outline'} onClick={() => { setCommunitiesOpen(true) }}>
+        <Users />
+        Nueva comunidad
+      </Button>
+      </div>
+      <GroupDialog open={groupsOpen} setOpen={setGroupsOpen}/>
+      <CommunityDialog open={communitiesOpen} setOpen={setCommunitiesOpen}/>
       {error && <p className='text-red-500'>{error}</p>}
       <Accordion className='w-1/2' type='multiple' defaultValue={['1', '2', '-1']}>
         {Object.entries(groupedByCommunity).map(([communityId, community]) => (

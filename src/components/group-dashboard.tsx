@@ -6,6 +6,9 @@ import ThreadsWidget from './threads-widget'
 import { type Group } from '@/types/Group'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useAuth from '@/hooks/useAuth'
+import { Button } from './ui/button'
+import { UserPlus } from 'lucide-react'
+import InvitationDialog from './invitation-dialog'
 
 function GroupDashboard ({ groupId }: { groupId: number }) {
   const [globalFilter, setGlobalFilter] = useState<string>('')
@@ -14,6 +17,7 @@ function GroupDashboard ({ groupId }: { groupId: number }) {
   const [error, setError] = useState<string>('')
   const [group, setGroup] = useState<Group | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [open, setOpen] = useState(false)
   useEffect(() => {
     let isMounted = true
     const controller = new AbortController()
@@ -60,6 +64,20 @@ function GroupDashboard ({ groupId }: { groupId: number }) {
       {!isLoading && <h2 className='text-3xl font-bold ml-0'>{group?.title}</h2>}
       {error !== '' && <p>{error}</p>}
       <QuickSearch globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} />
+      {
+  auth.roles.some(
+    role =>
+      // eslint-disable-next-line eqeqeq
+      role.group_id == groupId &&
+      // eslint-disable-next-line eqeqeq
+      (role.role_id == 23 || role.role_id == 42)
+  ) && (
+    <>
+      <Button variant={'outline'} onClick={() => { setOpen(true) }}><UserPlus />Invitar usuario</Button>
+      <InvitationDialog open={open} setOpen={setOpen} groupId={groupId}/>
+    </>
+  )
+}
       <div className='grid lg:grid-cols-2 gap-16 mt-8 w-full justify-center'>
         <ScheduleWidget globalFilter={globalFilter} groupId={groupId} />
         <FilesWidget globalFilter={globalFilter} groupId={groupId}/>

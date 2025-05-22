@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils'
 import useAuth from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
 import authService from '@/services/Logout'
+import { Notifications } from './notifications'
 
 export default function Header () {
   const { auth, setAuth } = useAuth()
@@ -125,6 +126,7 @@ export default function Header () {
                 </Link>
               </>
                 )}
+            <Notifications />
             <ModeToggle />
           </div>
         </SheetContent>
@@ -186,6 +188,7 @@ export default function Header () {
             </Link>
           </>
             )}
+        <Notifications />
         <ModeToggle />
       </nav>
     </header>

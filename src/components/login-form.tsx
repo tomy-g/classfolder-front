@@ -54,7 +54,12 @@ export function LoginForm () {
       return
     }
     const accessToken = response.accessToken
-    const roles = (response.roles ?? {})
+    const roles = Array.isArray(response.roles)
+      ? response.roles.map((role: { key: number, value: number }) => ({
+        group_id: role.key,
+        role_id: role.value
+      }))
+      : []
     const user = response.user ?? ''
     const pic = response.pic ?? ''
     const userId = response.userId ?? ''
