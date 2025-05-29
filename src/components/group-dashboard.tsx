@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { useEffect, useState } from 'react'
 import FilesWidget from './files-widget'
 import QuickSearch from './quick-search'
@@ -9,6 +10,7 @@ import useAuth from '@/hooks/useAuth'
 import { Button } from './ui/button'
 import { UserPlus } from 'lucide-react'
 import InvitationDialog from './invitation-dialog'
+import RankingWidget from './ranking-widget'
 
 function GroupDashboard ({ groupId }: { groupId: number }) {
   const [globalFilter, setGlobalFilter] = useState<string>('')
@@ -61,7 +63,11 @@ function GroupDashboard ({ groupId }: { groupId: number }) {
   }, [globalFilter])
   return (
     <main className='flex w-full max-w-screen-3xl min-h-screen flex-col items-center px-10 mx-auto'>
-      {!isLoading && <h2 className='text-3xl font-bold ml-0'>{group?.title}</h2>}
+      {!isLoading && group?.title && (
+        <h2 className='text-3xl font-bold ml-0'>
+          {group.title.charAt(0).toUpperCase() + group.title.slice(1)}
+        </h2>
+      )}
       {error !== '' && <p>{error}</p>}
       <QuickSearch globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} />
       {
@@ -82,6 +88,7 @@ function GroupDashboard ({ groupId }: { groupId: number }) {
         <ScheduleWidget globalFilter={globalFilter} groupId={groupId} />
         <FilesWidget globalFilter={globalFilter} groupId={groupId}/>
         <ThreadsWidget globalFilter={globalFilter} groupId={groupId}/>
+        <RankingWidget groupId={groupId}/>
       </div>
     </main>
   )

@@ -6,9 +6,11 @@ export interface File {
   authorId: number
   authorUsername: string
   uploadDate: Date
-  downloads: number
+  downloadCount: number
+  likeCount: number
   extension: FileExtension
-  authorAvatar: string
-  group: string
+  userPic: string
+  groupName: string
+  groupId: number
   externalKey: string
 }

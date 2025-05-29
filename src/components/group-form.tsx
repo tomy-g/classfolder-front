@@ -75,7 +75,7 @@ export default function GroupForm ({ onSave }: { onSave: () => void }) {
     const controller = new AbortController()
     async function fetchCommunties (username: string): Promise<Community[]> {
       try {
-        const response = await axiosPrivate.get(`communities/${username}`, {
+        const response = await axiosPrivate.get(`communities/owns/${username}`, {
           signal: controller.signal,
           withCredentials: true
         })
@@ -87,7 +87,7 @@ export default function GroupForm ({ onSave }: { onSave: () => void }) {
     async function getCommunities () {
       const response = await fetchCommunties(auth?.user ?? '')
       if (response.length < 1) {
-        setError('No groups found')
+        setError('No se han encontrado comunidades')
       } else {
         setError('')
         isMounted && setCommunities(response)

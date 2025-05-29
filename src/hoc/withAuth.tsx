@@ -58,7 +58,7 @@ export default function withAuth <T extends object> (
       ) {
         router.push('/login') // Redirect to login if not authenticated
       }
-    }, [auth.accessToken])
+    }, [auth.accessToken, router])
 
     if (
       auth.accessToken == null ||

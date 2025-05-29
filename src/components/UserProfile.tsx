@@ -19,6 +19,7 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { type User } from '@/types/User'
 import ProfileForm from './profile-form'
 import { useRouter } from 'next/navigation'
+import uniqolor from 'uniqolor'
 
 export default function UserProfile () {
   const URL = 'https://kw2u2431to.ufs.sh/f/'
@@ -73,11 +74,30 @@ export default function UserProfile () {
     router.refresh()
   }
 
+  const [gradientStyle, setGradientStyle] = useState({})
+
+  useEffect(() => {
+    const baseKey = auth.user.toString()
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+
+    const color1 = uniqolor(baseKey, {
+      differencePoint: isLightMode ? 50 : undefined,
+    }).color
+
+    const color2 = uniqolor(baseKey + '_', {
+      differencePoint: isLightMode ? 50 : undefined,
+    }).color
+
+    setGradientStyle({
+      backgroundImage: `linear-gradient(to right, ${color1}, ${color2})`,
+    })
+  }, [auth])
+
   return (
     <div className="container max-w-4xl py-10">
       {error !== '' && <p>{error}</p>}
       { !isLoading && <Card className="overflow-hidden">
-        <div className="h-40 bg-gradient-to-r from-teal-500 to-emerald-500" />
+        <div className="h-40" style={gradientStyle} />
         <div className="relative px-6">
           <Avatar className="absolute -top-16 border-4 border-background h-32 w-32 bg-background">
             <AvatarImage src={ user?.pic ? URL + user?.pic : ''} alt={user?.username} />

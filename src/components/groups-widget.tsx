@@ -78,13 +78,13 @@ const GroupsWidget = ({ globalFilter }: { globalFilter: string }) => {
           >
             <Link href='/groups?new'>
               <PlusIcon className='mr-2 h-4 w-4'></PlusIcon>
-              Add Group
+              Añadir grupo
             </Link>
           </Button>
           <Button asChild size='lg' variant='secondary' className='rounded-lg'>
             <Link href='/groups'>
               <EyeIcon className='mr-2 h-4 w-4'></EyeIcon>
-              View all
+              Ver todos
             </Link>
           </Button>
         </li>
