@@ -1,36 +1,36 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-
 'use client'
-
-import FileDialog from '@/components/file-dialog'
-import { Button } from '@/components/ui/button'
-import useAuth from '@/hooks/useAuth'
+import React, { useEffect, useState } from 'react'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
-import { FilePlus } from 'lucide-react'
-import { useSearchParams, useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { type File } from '@/types/File'
-import FileCard from '@/components/file-card'
+import useAuth from '@/hooks/useAuth'
+import { type Thread } from '@/types/Thread'
+import { isNullOrUndefinedOrEmpty } from '@/utils/utils'
+import ThreadCard from '@/components/thread-card'
+import { useParams } from 'next/navigation'
 import { type Group } from '@/types/Group'
+import { Button } from '@/components/ui/button'
+import { FilePlus } from 'lucide-react'
+import ThreadDialog from '@/components/thread-dialog'
 
 export default function Page () {
-  const searchParams = useSearchParams()
-  const params = useParams()
-  const isOpen = (searchParams.get('new') !== null)
   const { auth } = useAuth()
-  const [files, setFiles] = useState<File[]>([])
-  const [error, setError] = useState<string>('')
-  const [open, setOpen] = useState(isOpen)
-  const [group, setGroup] = useState<Group | null>(null)
+  const [threads, setThreads] = React.useState<Thread[]>([])
+  const [error, setError] = React.useState<string>('')
   const axiosPrivate = useAxiosPrivate()
+  const params = useParams()
   const groupId = params.id as string
+  const [open, setOpen] = useState(false)
+  const [group, setGroup] = useState<Group | null>(null)
 
   useEffect(() => {
     let isMounted = true
     const controller = new AbortController()
-    async function fetchFiles (username: string): Promise<File[]> {
+    async function fetchThreads (username: string): Promise<Thread[]> {
       try {
-        const url = `files/${username}/${groupId}`
+        let url = `threads/${username}`
+        if (!isNullOrUndefinedOrEmpty(groupId)) {
+          url += `/${groupId}`
+        }
         const response = await axiosPrivate.get(url,
           {
             signal: controller.signal,
@@ -53,17 +53,9 @@ export default function Page () {
         return null
       }
     }
-    async function getFiles () {
-      const response = await fetchFiles(auth?.user ?? '')
-      if (response.length < 1) {
-        setError('No files found')
-      } else {
-        setError('')
-        isMounted && setFiles(response)
-      }
-    }
     async function getGroup () {
       const response = await fetchGroup(groupId)
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (response) {
         setError('')
         setGroup(response)
@@ -71,33 +63,43 @@ export default function Page () {
         setError('Grupo no encontrado')
       }
     }
+    async function getThreads () {
+      const response = await fetchThreads(auth?.user ?? '')
+      if (response.length < 1) {
+        setError('No se han encontrado hilos')
+        isMounted && setThreads([])
+      } else {
+        setError('')
+        isMounted && setThreads(response)
+      }
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getFiles()
+    getThreads()
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getGroup()
+
     return () => {
       isMounted = false
       controller.abort()
     }
-  }, [auth, axiosPrivate, groupId])
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth, axiosPrivate])
   return (
     <main className='flex mx-auto my-8 w-full max-w-screen-3xl items-center justify-center px-4 flex-col'>
-      <h2 className='text-2xl font-semibold mb-6'>Archivos destacados de {group?.title}</h2>
+      <h2 className='text-2xl font-semibold mb-6'>Hilos en {group?.title}</h2>
       <Button className='mb-4' variant={'outline'} onClick={() => { setOpen(true) }}>
         <FilePlus />
-        Nuevo archivo
+        Nuevo hilo
       </Button>
-      {/* <UploadButton endpoint={'imageUploader'} /> */}
-      <FileDialog groupId={Number(groupId)} open={open} setOpen={setOpen}/>
+      <ThreadDialog groupId={null} open={open} setOpen={setOpen}/>
       {error && <p className='text-red-500'>{error}</p>}
-      <ol className='list-none flex flex-col gap-4 w-1/3'>
-        {files.map((file: File) => (
-          <li className='w-full' key={file.id}>
-            <FileCard file={file} />
+      <ul className='w-1/2'>
+        {threads.map((thread: Thread) => (
+          <li key={thread.id}>
+            <ThreadCard thread={thread} />
           </li>
         ))}
-      </ol>
+      </ul>
     </main>
   )
 }

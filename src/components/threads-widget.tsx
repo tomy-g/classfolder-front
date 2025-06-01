@@ -63,7 +63,7 @@ function ThreadsWidget ({ globalFilter, groupId }: { globalFilter: string, group
   }, [auth, debouncedTextFilter, globalFilter])
   return (
     <section>
-      <SectionHeading title={'NUEVOS HILOS'} link={'threads'} isFilterDisabled={Boolean(globalFilter)} textFilter={textFilter} setTextFilter={setTextFilter}/>
+      <SectionHeading title={'NUEVOS HILOS'} link={!isNullOrUndefinedOrEmpty(groupId) ? `${groupId}/threads` : 'threads'} isFilterDisabled={Boolean(globalFilter)} textFilter={textFilter} setTextFilter={setTextFilter}/>
       {error !== '' && <p>{error}</p>}
       { !isLoading && <ul>
         {threads.slice(0, 3).map((thread: Thread) => (

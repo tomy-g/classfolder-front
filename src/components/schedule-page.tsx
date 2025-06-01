@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import EventCalendar from './EventCalendar'
-import SectionHeading from './section-heading'
 import { type Event } from '@/types/Event'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useAuth from '@/hooks/useAuth'
@@ -10,9 +9,13 @@ import { CalendarPlus } from 'lucide-react'
 import { Button } from './ui/button'
 import { type Group } from '@/types/Group'
 import { useDebounce } from 'use-debounce'
+import { useParams } from 'next/navigation'
+import SearchInput from './ui/search-input'
 
-export default function ScheduleWidget ({ globalFilter, groupId }: { globalFilter: string, groupId?: number }) {
+export default function SchedulePage () {
   const { auth } = useAuth()
+  const params = useParams()
+  const groupId = params.id as string
   const [events, setEvents] = useState<Event[]>([])
   const [groups, setGroups] = useState<Group[]>([])
   const [error, setError] = useState<string>('')
@@ -31,17 +34,13 @@ export default function ScheduleWidget ({ globalFilter, groupId }: { globalFilte
         if (!isNullOrUndefinedOrEmpty(groupId)) {
           url += `/${groupId}`
         }
-        if (!isNullOrUndefinedOrEmpty(globalFilter)) {
-          url += `?search=${globalFilter}`
-        } else if (!isNullOrUndefinedOrEmpty(debouncedTextFilter)) {
+        if (!isNullOrUndefinedOrEmpty(debouncedTextFilter)) {
           url += `?search=${debouncedTextFilter}`
         }
-        const response = await axiosPrivate.get(url,
-          {
-            signal: controller.signal,
-            withCredentials: true
-          }
-        )
+        const response = await axiosPrivate.get(url, {
+          signal: controller.signal,
+          withCredentials: true
+        })
         return response.data
       } catch (error) {
         return []
@@ -90,18 +89,31 @@ export default function ScheduleWidget ({ globalFilter, groupId }: { globalFilte
       isMounted = false
       controller.abort()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth, open, debouncedTextFilter, globalFilter])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth, open, debouncedTextFilter])
   return (
-    <section>
-      <SectionHeading title='AGENDA' link={'schedule'} isFilterDisabled={Boolean(globalFilter)} textFilter={textFilter} setTextFilter={setTextFilter}></SectionHeading>
-      <Button className='mb-2' variant={'outline'} onClick={() => { setOpen(true) }}>
-        <CalendarPlus />
-        Nuevo evento
-      </Button>
-      <EventDialog open={open} setOpen={setOpen}/>
+    <section className='max-w-3xl mx-auto flex flex-col mt-10'>
+      <div className='flex justify-between items-center mb-4'>
+        <Button
+          variant={'outline'}
+          onClick={() => {
+            setOpen(true)
+          }}
+        >
+          <CalendarPlus />
+          Nuevo evento
+        </Button>
+        <SearchInput
+          isFilterDisabled={false}
+          textFilter={textFilter}
+          setTextFilter={setTextFilter}
+        ></SearchInput>
+      </div>
+      <EventDialog open={open} setOpen={setOpen} />
       {error !== '' && <p>{error}</p>}
-      {!isLoading && <EventCalendar eventsInput={events} groupsInput={groups} />}
+      {!isLoading && (
+        <EventCalendar eventsInput={events} groupsInput={groups} />
+      )}
     </section>
   )
 }
