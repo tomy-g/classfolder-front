@@ -2,14 +2,14 @@ import { z } from 'zod'
 
 export const loginSchema = z.object({
   username: z.string().min(2, {
-    message: 'Username must be at least 2 characters.'
+    message: 'El nombre de usuario debe tener al menos 2 caracteres.'
   }).max(15, {
-    message: 'Username must be at most 15 characters.'
+    message: 'El nombre de usuario debe tener como máximo 15 caracteres.'
   }),
   password: z.string().min(8, {
-    message: 'Password must be at least 8 characters.'
+    message: 'La contraseña debe tener al menos 8 caracteres.'
   }).max(100, {
-    message: 'Password must be at most 100 characters.'
+    message: 'La contraseña debe tener como máximo 100 caracteres.'
   }),
   persist: z.boolean()
 })

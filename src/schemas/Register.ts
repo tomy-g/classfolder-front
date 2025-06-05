@@ -2,29 +2,29 @@ import { z } from 'zod'
 
 export const registerSchema = z.object({
   username: z.string().min(3, {
-    message: 'Username must be at least 3 characters.'
+    message: 'El nombre de usuario debe tener al menos 3 caracteres.'
   }).max(15, {
-    message: 'Username must be at most 15 characters.'
+    message: 'El nombre de usuario debe tener como máximo 15 caracteres.'
   }),
   firstName: z.string().min(3, {
-    message: 'First name must be at least 3 characters.'
+    message: 'El nombre debe tener al menos 3 caracteres.'
   }).max(30, {
-    message: 'First name must be at most 30 characters.'
+    message: 'El nombre debe tener como máximo 30 caracteres.'
   }),
   lastName: z.string().min(2, {
-    message: 'Last name must be at least 3 characters.'
+    message: 'El apellido debe tener al menos 2 caracteres.'
   }).max(30, {
-    message: 'Last name must be at most 30 characters.'
+    message: 'El apellido debe tener como máximo 30 caracteres.'
   }),
   password: z.string().min(8, {
-    message: 'Password must be at least 8 characters.'
+    message: 'La contraseña debe tener al menos 8 caracteres.'
   }).max(100, {
-    message: 'Password must be at most 100 characters.'
+    message: 'La contraseña debe tener como máximo 100 caracteres.'
   }),
   passwordConfirmation: z.string().min(8, {
-    message: 'Password must be at least 8 characters.'
+    message: 'La confirmación de la contraseña debe tener al menos 8 caracteres.'
   }).max(100, {
-    message: 'Password must be at most 100 characters.'
+    message: 'La confirmación de la contraseña debe tener como máximo 100 caracteres.'
   })
 }).refine(data => data.password === data.passwordConfirmation, {
   message: 'Passwords must match',

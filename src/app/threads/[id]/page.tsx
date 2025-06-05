@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { MessageCircle, Clock, Users, Send } from 'lucide-react'
+import { MessageCircle, Clock, Users, Send, Folder } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { useEffect, useState } from 'react'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
@@ -14,6 +15,7 @@ import { type Thread } from '@/types/Thread'
 import { useParams } from 'next/navigation'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import { es } from 'date-fns/locale'
 
 export default function Page () {
   const { auth } = useAuth()
@@ -25,6 +27,7 @@ export default function Page () {
   const threadId = params.id as string
   const [newMessage, setNewMessage] = useState('')
   const [messageAdded, setMessageAdded] = useState('')
+  const URL = 'https://kw2u2431to.ufs.sh/f/'
 
   useEffect(() => {
     let isMounted = true
@@ -121,7 +124,7 @@ export default function Page () {
             <div className='flex items-center justify-between'>
               <h1 className='text-2xl font-bold'>{thread?.title}</h1>
               <Badge variant='outline' className='flex items-center gap-1'>
-                <Users className='h-3 w-3' />
+                <Folder className='h-3 w-3' />
                 {thread?.groupName}
               </Badge>
             </div>
@@ -130,28 +133,29 @@ export default function Page () {
                 <Avatar className='h-6 w-6 mr-2'>
                   <AvatarImage
                     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-                    src={thread?.creatorUsername ?? '/placeholder.svg'}
+                    src={URL + thread?.userPic || '/placeholder.svg'}
                     alt={thread?.creatorUsername}
                   />
                   <AvatarFallback>
                     {thread?.creatorUsername?.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
-                <span>{thread?.creatorUsername}</span>
+                <span>{'@' + thread?.creatorUsername}</span>
               </div>
               <span className='mx-2'>•</span>
               <div className='flex items-center'>
                 <Clock className='h-4 w-4 mr-1' />
                 <span>
                   {formatDistanceToNow(thread?.creationDate ?? new Date(), {
-                    addSuffix: true
+                    addSuffix: true,
+                    locale: es
                   })}
                 </span>
               </div>
               <span className='mx-2'>•</span>
               <div className='flex items-center'>
                 <MessageCircle className='h-4 w-4 mr-1' />
-                <span>{thread?.messageCount} messages</span>
+                <span>{thread?.messageCount} mensajes</span>
               </div>
             </div>
           </div>
@@ -167,16 +171,17 @@ export default function Page () {
                 <Avatar>
                   <AvatarImage
                     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-                    src={message.username || '/placeholder.svg'}
+                    src={URL + message.userPic || '/placeholder.svg'}
                     alt={message.username}
                   />
                   <AvatarFallback>{message.username.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <div className='font-medium'>{message.username}</div>
+                  <div className='font-medium'>{'@' + message.username}</div>
                   <div className='text-xs text-muted-foreground'>
                     {formatDistanceToNow(message.date, {
-                      addSuffix: true
+                      addSuffix: true,
+                      locale: es
                     })}
                   </div>
                 </div>
@@ -193,7 +198,7 @@ export default function Page () {
               <div className='flex items-center space-x-2'>
                 <Avatar>
                   <AvatarImage
-                    src={auth.pic ?? '/placeholder.svg'}
+                    src={URL + auth.pic || '/placeholder.svg'}
                     alt={auth.user}
                   />
                   <AvatarFallback>{auth.user.charAt(0)}</AvatarFallback>

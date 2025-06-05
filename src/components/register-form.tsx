@@ -99,7 +99,7 @@ export function RegisterForm () {
                         if (!usernameDoesNotExist) {
                           form.setError('username', {
                             type: 'custom',
-                            message: 'Username already exists'
+                            message: 'El nombre de usuario ya está en uso.'
                           })
                         } else {
                           form.clearErrors('username')
@@ -157,7 +157,20 @@ export function RegisterForm () {
                 <FormItem className='grid gap-2'>
                   <FormLabel>Confirma tu contraseña</FormLabel>
                   <FormControl>
-                    <PasswordInput {...field} />
+                    <PasswordInput
+                      {...field}
+                      onBlur={e => {
+                        field.onBlur?.()
+                        if (field.value !== form.getValues('password')) {
+                          form.setError('passwordConfirmation', {
+                            type: 'custom',
+                            message: 'Las contraseñas no coinciden.'
+                          })
+                        } else {
+                          form.clearErrors('passwordConfirmation')
+                        }
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

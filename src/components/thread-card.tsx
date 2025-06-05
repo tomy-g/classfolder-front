@@ -1,5 +1,4 @@
 import {
-  MoreHorizontalIcon,
   MessageSquare
 } from 'lucide-react'
 import React from 'react'
@@ -24,11 +23,10 @@ const ThreadCard = ({ thread }: { thread: Thread }) => {
             </CardTitle>
           </Link>
           <CardDescription className='text-sm leading-none mt-1'>
-            by {thread.creatorUsername}
+            {'@' + thread.creatorUsername}
           </CardDescription>
         </div>
         <span className='text-background rounded-full bg-muted-foreground text-sm px-2'>{thread.groupName}</span>
-        <MoreHorizontalIcon className='h-5 w-5 flex-shrink-0 text-muted-foreground' />
       </CardHeader>
       <CardContent>
         <div className='flex items-center space-x-2 text-sm'>

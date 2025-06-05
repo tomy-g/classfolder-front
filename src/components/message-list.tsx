@@ -14,6 +14,7 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { type RecentMessage } from '@/types/RecentMessage'
 import useAuth from '@/hooks/useAuth'
 import { type User } from '@/types/User'
+import { formatSmartDate } from '@/utils/utils'
 
 export default function MessageList ({ interlocutor, setInterlocutor }: { interlocutor: User | null, setInterlocutor: (user: User | null) => void }) {
   const { auth } = useAuth()
@@ -89,6 +90,7 @@ export default function MessageList ({ interlocutor, setInterlocutor }: { interl
     })()
   }
   const [showNewMessage, setShowNewMessage] = useState(false)
+  const URL = 'https://kw2u2431to.ufs.sh/f/'
 
   return (
     <div className='w-full md:w-80 border-r flex flex-col'>
@@ -110,7 +112,7 @@ export default function MessageList ({ interlocutor, setInterlocutor }: { interl
       )}
 
       <div className='px-4 py-2 font-medium text-sm flex items-center justify-between'>
-        <span>Mensajes recientes</span>
+        <span>Conversaciones recientes</span>
         <span className='text-muted-foreground text-xs'>
           {recentMessages.length}
         </span>
@@ -134,7 +136,7 @@ export default function MessageList ({ interlocutor, setInterlocutor }: { interl
               <Avatar className='h-10 w-10 flex-shrink-0'>
                 <AvatarImage
                   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-                  src={conversation.userPic || '/placeholder.svg'}
+                  src={URL + conversation.userPic || '/placeholder.svg'}
                   alt={conversation.username}
                 />
                 <AvatarFallback>
@@ -143,18 +145,18 @@ export default function MessageList ({ interlocutor, setInterlocutor }: { interl
               </Avatar>
               <div className='flex flex-col items-start gap-1 w-full overflow-hidden'>
                 <div className='flex items-center justify-between w-full'>
-                  <span className='font-medium'>{conversation.username}</span>
+                  <span className='font-medium'>{'@' + conversation.username}</span>
                   <span className='text-xs text-muted-foreground'>
-                    {conversation.date.toLocaleString()}
+                    {formatSmartDate(conversation.date)}
                   </span>
                 </div>
                 <div className='text-xs text-muted-foreground truncate w-full text-left'>
                   {conversation.content}
                 </div>
               </div>
-              {conversation.isReceived && (
+              {/* {conversation.isReceived && (
                 <div className='absolute right-3 top-3 w-2 h-2 bg-primary rounded-full' />
-              )}
+              )} */}
             </Button>
           ))}
         </div>

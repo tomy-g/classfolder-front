@@ -6,11 +6,15 @@ import useAuth from '@/hooks/useAuth'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { isNullOrUndefinedOrEmpty } from '@/utils/utils'
 import { useDebounce } from 'use-debounce'
+import FileDialog from './file-dialog'
+import { Button } from './ui/button'
+import { FilePlus } from 'lucide-react'
 export default function FilesWidget ({ globalFilter, groupId }: { globalFilter: string, groupId?: number }) {
   const { auth } = useAuth()
   const [files, setFiles] = React.useState<File[]>([])
   const [error, setError] = React.useState<string>('')
   const axiosPrivate = useAxiosPrivate()
+  const [open, setOpen] = useState(false)
   const [textFilter, setTextFilter] = useState<string>('')
   const [debouncedTextFilter] = useDebounce(textFilter, 500)
   const [isLoading, setIsLoading] = useState(true)
@@ -42,7 +46,7 @@ export default function FilesWidget ({ globalFilter, groupId }: { globalFilter: 
     async function getFiles () {
       const response = await fetchFiles(auth?.user ?? '')
       if (response.length < 1) {
-        setError('No files found')
+        setError('No se han encontrado archivos')
         isMounted && setFiles([])
         isMounted && setIsLoading(false)
       } else {
@@ -63,6 +67,12 @@ export default function FilesWidget ({ globalFilter, groupId }: { globalFilter: 
     <section>
       <SectionHeading title='ARCHIVOS DESTACADOS' link={
       !isNullOrUndefinedOrEmpty(groupId) ? `${groupId}/files` : 'files'} isFilterDisabled={Boolean(globalFilter)} textFilter={textFilter} setTextFilter={setTextFilter}></SectionHeading>
+      <Button className='mb-4' variant={'outline'} onClick={() => { setOpen(true) }}>
+        <FilePlus />
+        Nuevo archivo
+      </Button>
+      {/* <UploadButton endpoint={'imageUploader'} /> */}
+      <FileDialog groupId={!isNullOrUndefinedOrEmpty(groupId) ? groupId : null} open={open} setOpen={setOpen}/>
       {error !== '' && <p>{error}</p>}
       {!isLoading && <ol className='list-none grid grid-cols-1 gap-4 2xl:grid-cols-2'>
         {files.slice(0, 6).map((file: File) => (

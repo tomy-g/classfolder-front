@@ -7,4 +7,5 @@ export interface Thread {
   title: string
   creationDate: Date
   messageCount: number
+  userPic?: string
 }

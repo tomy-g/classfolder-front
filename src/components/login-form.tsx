@@ -91,7 +91,7 @@ export function LoginForm () {
                 <FormItem className='grid gap-2'>
                   <FormLabel>Nombre de usuario</FormLabel>
                   <FormControl>
-                    <Input placeholder='ana123' {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -36,6 +36,7 @@ export function UserSelector ({ onSelect, setInterlocutor }: UserSelectorProps) 
   const axiosPrivate = useAxiosPrivate()
   const [error, setError] = useState<string>('')
   const [classMates, setClassmates] = useState<User[]>([])
+  const URL = 'https://kw2u2431to.ufs.sh/f/'
 
   useEffect(() => {
     const isMounted = true
@@ -92,7 +93,7 @@ export function UserSelector ({ onSelect, setInterlocutor }: UserSelectorProps) 
               <div className='flex items-center gap-2'>
                 <Avatar className='h-6 w-6'>
                   <AvatarImage
-                    src={selectedUserData?.pic ?? '/placeholder.svg'}
+                    src={ URL + selectedUserData?.pic || '/placeholder.svg'}
                     alt={selectedUserData?.username}
                   />
                   <AvatarFallback>
@@ -123,7 +124,7 @@ export function UserSelector ({ onSelect, setInterlocutor }: UserSelectorProps) 
                   >
                     <Avatar className='h-8 w-8'>
                       <AvatarImage
-                        src={user.pic ?? '/placeholder.svg'}
+                        src={ URL + user.pic || '/placeholder.svg'}
                         alt={user.username}
                       />
                       <AvatarFallback>{user.username.charAt(0)}</AvatarFallback>

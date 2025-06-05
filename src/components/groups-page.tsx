@@ -107,7 +107,6 @@ export default function GroupsPage () {
       </div>
       <GroupDialog open={groupsOpen} setOpen={setGroupsOpen}/>
       <CommunityDialog open={communitiesOpen} setOpen={setCommunitiesOpen}/>
-      {error && <p className='text-red-500'>{error}</p>}
       <Accordion className='w-1/2' type='multiple' defaultValue={['1', '2', '-1']}>
         {Object.entries(groupedByCommunity).map(([communityId, community]) => (
           <AccordionItem key={communityId} value={communityId}>

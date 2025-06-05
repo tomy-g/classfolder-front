@@ -14,6 +14,7 @@ import { type User } from '@/types/User'
 import useAuth from '@/hooks/useAuth'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { type RecentMessage } from '@/types/RecentMessage'
+import { formatSmartDate } from '@/utils/utils'
 
 export function MessagePanel ({ interlocutor }: { interlocutor: User | null }) {
   const [newMessage, setNewMessage] = useState('')
@@ -22,6 +23,7 @@ export function MessagePanel ({ interlocutor }: { interlocutor: User | null }) {
   const axiosPrivate = useAxiosPrivate()
   const [error, setError] = useState<string>('')
   const [newMessageAdded, setNewMessageAdded] = useState(null)
+  const URL = 'https://kw2u2431to.ufs.sh/f/'
 
   function addMessageInfo (): any {
     return {
@@ -114,7 +116,7 @@ export function MessagePanel ({ interlocutor }: { interlocutor: User | null }) {
             <div className='flex items-center gap-2'>
               <Avatar className='h-8 w-8'>
                 <AvatarImage
-                  src={interlocutor.pic ?? '/placeholder.svg'}
+                  src={URL + interlocutor.pic || '/placeholder.svg'}
                   alt={interlocutor.username}
                 />
                 <AvatarFallback>
@@ -123,7 +125,7 @@ export function MessagePanel ({ interlocutor }: { interlocutor: User | null }) {
               </Avatar>
               <div>
                 <div className='font-medium'>
-                  {interlocutor.username}
+                  {'@' + interlocutor.username}
                 </div>
               </div>
             </div>
@@ -142,8 +144,8 @@ export function MessagePanel ({ interlocutor }: { interlocutor: User | null }) {
                     <AvatarImage
                       src={
                         !message.isReceived
-                          ? auth.pic ?? '/placeholder.svg'
-                          : interlocutor.pic ?? '/placeholder.svg'
+                          ? (URL + auth.pic || '/placeholder.svg')
+                          : (URL + interlocutor.pic || '/placeholder.svg')
                       }
                       alt={
                         !message.isReceived
@@ -172,10 +174,7 @@ export function MessagePanel ({ interlocutor }: { interlocutor: User | null }) {
                       {message.content}
                     </div>
                     <span className='text-xs text-muted-foreground mt-1'>
-                      {message.date.toLocaleString([], {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
+                      {formatSmartDate(message.date)}
                     </span>
                   </div>
                 </div>

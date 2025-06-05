@@ -6,4 +6,5 @@ export interface ThreadMessage {
   username: string
   content: string
   date: Date
+  userPic?: string
 }

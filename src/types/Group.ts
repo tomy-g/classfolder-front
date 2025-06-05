@@ -5,4 +5,5 @@ export interface Group {
   description: string
   creationDate: string
   communityId: number | null
+  config?: string
 }
