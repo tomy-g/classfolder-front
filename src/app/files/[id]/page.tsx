@@ -15,6 +15,7 @@ import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import useAuth from '@/hooks/useAuth'
 import Link from 'next/link'
+import DeleteButton from '@/components/delete-button'
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
@@ -189,6 +190,20 @@ export default function FilePage () {
     }
   }
 
+  async function handleDelete (fileId: number) {
+    try {
+      const url = 'files'
+      const response = await axiosPrivate.delete(url + `/${fileId}`, {
+        withCredentials: true
+      })
+      if (response.status === 200) {
+        window.location.href = '/files'
+      }
+    } catch (error) {
+      console.log('Error deleting file:', error)
+    }
+  }
+
   return (
     <div className='flex flex-col max-w-xl mx-auto'>
       <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4 mb-">
@@ -209,6 +224,15 @@ export default function FilePage () {
           <Download></Download>
           Descargar archivo
         </Button>
+          )}
+          {(auth.roles.some(
+            role =>
+            // eslint-disable-next-line eqeqeq
+              role.group_id == file?.groupId &&
+          // eslint-disable-next-line eqeqeq
+          (role.role_id == 23 || role.role_id == 42)
+          ) || (auth.userId === file?.authorId)) && (
+        <DeleteButton onDelete={async () => { if (file?.id !== undefined) { await handleDelete(file.id) } }} />
           )}
       </div>
       <div className="flex justify-between items-center mb-4 mt-4">
@@ -252,7 +276,6 @@ export default function FilePage () {
         </div>
       </div>
 
-      {/* PDF Viewer */}
       {file !== null && file.extension === 'pdf' && (
         <div>
           <Document file={URL + file.externalKey} onLoadSuccess={onDocumentLoadSuccess}>
@@ -284,7 +307,6 @@ export default function FilePage () {
         </div>
       )}
 
-      {/* Image Viewer */}
       {file !== null && (file.extension === 'png' || file.extension === 'jpeg' || file.extension === 'jpg') && (
         <div className='flex flex-col items-center justify-center'>
           <img
@@ -295,7 +317,6 @@ export default function FilePage () {
         </div>
       )}
 
-      {/* Error Handling */}
       {file !== null && (file.extension !== 'png' && file.extension !== 'jpeg' && file.extension !== 'jpg' && file.extension !== 'pdf') && (
         <div className='flex flex-col items-center justify-center'>
           <h2 className='text-2xl font-bold tracking-tight'>Formato no soportado</h2>

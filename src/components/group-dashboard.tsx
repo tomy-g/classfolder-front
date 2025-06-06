@@ -18,6 +18,8 @@ import RankingWidget from './ranking-widget'
 import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { arrayMove, rectSortingStrategy, SortableContext } from '@dnd-kit/sortable'
 import SortableItem from './sortable'
+import DeleteButton from './delete-button'
+import ManageRoles from './manage-roles'
 
 function GroupDashboard ({ groupId }: { groupId: number }) {
   const [globalFilter, setGlobalFilter] = useState<string>('')
@@ -26,6 +28,7 @@ function GroupDashboard ({ groupId }: { groupId: number }) {
   const [error, setError] = useState<string>('')
   const [group, setGroup] = useState<Group | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isOrderLoaded, setIsOrderLoaded] = useState(false)
   const [open, setOpen] = useState(false)
   const widgets = {
     ScheduleWidget,
@@ -123,6 +126,7 @@ function GroupDashboard ({ groupId }: { groupId: number }) {
         } else {
           isMounted && setWidgetOrder(defaultOrder)
         }
+        isMounted && setIsOrderLoaded(true)
         isMounted && setIsLoading(false)
       }
     }
@@ -136,6 +140,20 @@ function GroupDashboard ({ groupId }: { groupId: number }) {
   useEffect(() => {
     console.log(globalFilter)
   }, [globalFilter])
+
+  async function handleDelete (id: number) {
+    try {
+      const url = 'groups'
+      const response = await axiosPrivate.delete(url + `/${id}`, {
+        withCredentials: true
+      })
+      if (response.status === 200) {
+        window.location.href = '/groups'
+      }
+    } catch (error) {
+      console.log('Error deleting file:', error)
+    }
+  }
   return (
     <main className='flex w-full max-w-screen-3xl min-h-screen flex-col items-center px-10 mx-auto'>
       {!isLoading && group?.title && (
@@ -147,6 +165,7 @@ function GroupDashboard ({ groupId }: { groupId: number }) {
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
+      <div className='flex gap-2'>
       {auth.roles.some(
         role =>
           // eslint-disable-next-line eqeqeq
@@ -170,12 +189,26 @@ function GroupDashboard ({ groupId }: { groupId: number }) {
 
       {auth.roles.some(
         role =>
+        // eslint-disable-next-line eqeqeq
+          role.group_id == groupId &&
+                // eslint-disable-next-line eqeqeq
+                (role.role_id == 42)
+      ) && (
+        <>
+          <DeleteButton onDelete={async () => { if (groupId !== undefined) { await handleDelete(groupId) } }} />
+          <ManageRoles groupId={groupId}/>
+        </>
+      )}
+      </div>
+
+      {auth.roles.some(
+        role =>
           // eslint-disable-next-line eqeqeq
           role.group_id == groupId &&
           // eslint-disable-next-line eqeqeq
           (role.role_id == 23 || role.role_id == 42)
       )
-        ? (
+        ? (isOrderLoaded && (
         <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
@@ -193,7 +226,7 @@ function GroupDashboard ({ groupId }: { groupId: number }) {
                   })}
                 </div>
               </SortableContext>
-            </DndContext>)
+            </DndContext>))
         : (
       <div className='grid lg:grid-cols-2 gap-16 mt-8 w-full justify-center'>
         {widgetOrder.map((key) => {

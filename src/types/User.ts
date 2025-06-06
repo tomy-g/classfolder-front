@@ -5,4 +5,5 @@ export interface User {
   lastName: string
   pic?: string | null
   totalScore?: number
+  role?: number
 }

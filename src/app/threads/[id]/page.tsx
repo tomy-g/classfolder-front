@@ -16,6 +16,7 @@ import { useParams } from 'next/navigation'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { es } from 'date-fns/locale'
+import DeleteButton from '@/components/delete-button'
 
 export default function Page () {
   const { auth } = useAuth()
@@ -116,6 +117,21 @@ export default function Page () {
     setNewMessage('')
   }
 
+  async function handleDelete (fileId: number) {
+    try {
+      const url = 'threads'
+      const response = await axiosPrivate.delete(url + `/${threadId}`, {
+        withCredentials: true
+      })
+      if (response.status === 200) {
+        // Redirect or show success message
+        window.location.href = '/threads'
+      }
+    } catch (error) {
+      console.log('Error deleting file:', error)
+    }
+  }
+
   return (
     <div className='container max-w-4xl py-6 space-y-6'>
       <Card>
@@ -127,6 +143,15 @@ export default function Page () {
                 <Folder className='h-3 w-3' />
                 {thread?.groupName}
               </Badge>
+              {(auth.roles.some(
+                role =>
+                // eslint-disable-next-line eqeqeq
+                  role.group_id == thread?.groupId &&
+                        // eslint-disable-next-line eqeqeq
+                        (role.role_id == 23 || role.role_id == 42)
+              ) || (auth.userId === thread?.creatorId)) && (
+                      <DeleteButton onDelete={async () => { if (thread?.id !== undefined) { await handleDelete(thread.id) } }} />
+              )}
             </div>
             <div className='flex items-center text-sm text-muted-foreground'>
               <div className='flex items-center'>
