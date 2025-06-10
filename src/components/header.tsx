@@ -102,6 +102,7 @@ export default function Header () {
                 >
                   Cerrar sesión
                 </Link>
+                <Notifications />
               </>
                 )
               : (
@@ -126,7 +127,6 @@ export default function Header () {
                 </Link>
               </>
                 )}
-            <Notifications />
             <ModeToggle />
           </div>
         </SheetContent>
@@ -170,6 +170,7 @@ export default function Header () {
             >
               Cerrar sesión
             </Link>
+            <Notifications />
           </>
             )
           : (
@@ -188,7 +189,6 @@ export default function Header () {
             </Link>
           </>
             )}
-        <Notifications />
         <ModeToggle />
       </nav>
     </header>

@@ -9,7 +9,7 @@ export default function QuickSearch ({ globalFilter, setGlobalFilter }: { global
         <Input
           className='w-full pl-10 pr-4 py-2 rounded-md border border-foreground/75 focus:outline-none
             focus:ring-2 focus:border-primary dark:bg-secondary dark:border-foreground/25'
-          placeholder='Busqueda rápida...'
+          placeholder='Búsqueda rápida...'
           type='text'
           value={globalFilter}
           onChange={(e) => { setGlobalFilter(e.target.value) }}
